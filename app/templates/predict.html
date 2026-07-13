@@ -1,0 +1,964 @@
+{% extends "base.html" %}
+
+{# ============================================================
+   OptiCrop – predict.html
+   Flask Jinja2 Child Template  v2.0.0 (Integration Release)
+
+   Extends: base.html
+   Extra CSS:  predict.css
+   Extra JS:   predict.js
+   ============================================================ #}
+
+{% block title %}Crop Prediction – OptiCrop | AI-Powered Smart Agricultural Recommendation{% endblock %}
+
+{% block meta_description %}Use OptiCrop's AI crop recommendation engine. Enter your soil nitrogen, phosphorus, potassium, temperature, humidity, pH, and rainfall values to receive instant Machine Learning crop predictions powered by Random Forest and Scikit-Learn.{% endblock %}
+
+{% block meta_keywords %}crop prediction, AI crop recommendation, machine learning agriculture, nitrogen phosphorus potassium, soil pH, precision farming, Flask crop prediction, random forest crop, scikit-learn agriculture, predictive analytics farming{% endblock %}
+
+{% block og_title %}OptiCrop – AI Crop Prediction Engine{% endblock %}
+{% block og_description %}Enter soil and climate parameters to receive instant AI-powered crop recommendations backed by Machine Learning.{% endblock %}
+
+{% block tw_title %}OptiCrop – AI Crop Prediction{% endblock %}
+{% block tw_description %}Precision farming powered by Random Forest ML. Enter 7 soil parameters and get instant crop recommendations.{% endblock %}
+
+{% block body_page %}predict{% endblock %}
+
+{# Page-specific CSS #}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/predict.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+<!-- Loading Overlay (AI prediction in progress) -->
+<div id="loading-overlay" role="dialog" aria-modal="true" aria-label="AI prediction in progress">
+  <div class="loading-card">
+    <div class="loading-spinner-ring" aria-hidden="true">
+      <div class="loading-spinner-inner"></div>
+    </div>
+    <h2 class="loading-title">AI Analysis Running</h2>
+    <p class="loading-msg" id="loadingMsg">Initializing prediction pipeline…</p>
+    <div class="loading-prog-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Prediction progress">
+      <div class="loading-prog-fill" id="loadingProgressFill"></div>
+    </div>
+    <div class="loading-prog-label" aria-live="polite"></div>
+    <div class="loading-steps" aria-hidden="true">
+      <div class="lstep"></div>
+      <div class="lstep"></div>
+      <div class="lstep"></div>
+      <div class="lstep"></div>
+      <div class="lstep"></div>
+      <div class="lstep"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 1: HERO
+══════════════════════════════════════════════════════════ -->
+<section id="predict-hero" aria-label="Crop prediction hero">
+  <div class="predict-hero-orb pho-1" aria-hidden="true"></div>
+  <div class="predict-hero-orb pho-2" aria-hidden="true"></div>
+
+  <div class="container position-relative" style="z-index:3;">
+    <div class="row align-items-center g-5">
+
+      <!-- Left -->
+      <div class="col-lg-6">
+        <nav class="predict-breadcrumb" aria-label="Breadcrumb">
+          <a href="{{ url_for('main.home') }}"><i class="bi bi-house-fill"></i> Home</a>
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          <span>Crop Prediction</span>
+        </nav>
+
+        <div class="section-label" style="animation:fade-in-down 0.8s ease forwards;">
+          <i class="bi bi-robot" aria-hidden="true"></i> AI Crop Recommendation
+        </div>
+
+        <h1 class="predict-hero-title" style="animation:fade-in-up 0.9s ease 0.1s forwards;opacity:0;">
+          <span style="color:#f1f5f9;">Predict Your</span><br>
+          <span class="gradient-text">Optimal Crop</span>
+        </h1>
+
+        <p class="predict-hero-subtitle" style="animation:fade-in-up 0.9s ease 0.2s forwards;opacity:0;">
+          Machine Learning–Powered Precision Farming Recommendation
+        </p>
+
+        <p class="predict-hero-desc" style="animation:fade-in-up 0.9s ease 0.3s forwards;opacity:0;">
+          Enter your soil's <strong style="color:#f1f5f9;">Nitrogen, Phosphorus, Potassium</strong> levels and
+          <strong style="color:#f1f5f9;">environmental parameters</strong> to receive an instant AI crop recommendation.
+          Powered by a <strong style="color:#f1f5f9;">Random Forest classifier</strong> trained on 2,200+ agronomic records
+          with <strong style="color:#22c55e;">99.5% accuracy</strong>.
+        </p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:12px;animation:fade-in-up 0.9s ease 0.4s forwards;opacity:0;">
+          <a href="#prediction-form-section" class="btn-primary-custom" id="hero-predict-btn">
+            <i class="bi bi-cpu-fill" aria-hidden="true"></i> Start Prediction
+          </a>
+          <a href="{{ url_for('main.about') }}#ml-workflow" class="btn-outline-custom">
+            <i class="bi bi-diagram-3" aria-hidden="true"></i> How It Works
+          </a>
+        </div>
+      </div>
+
+      <!-- Right – Live Input Preview Panel -->
+      <div class="col-lg-6" style="animation:fade-in 1.1s ease 0.3s forwards;opacity:0;">
+        <div class="predict-hero-panel" aria-label="Sample soil parameters preview">
+          <div class="panel-header">
+            <div class="panel-header-dot dot-red" aria-hidden="true"></div>
+            <div class="panel-header-dot dot-amber" aria-hidden="true"></div>
+            <div class="panel-header-dot dot-green" aria-hidden="true"></div>
+            <span class="panel-title ms-2">Sample Soil Input Parameters</span>
+          </div>
+
+          <div class="panel-input-row">
+            <div class="pir-icon fi-green"><i class="bi bi-activity" aria-hidden="true"></i></div>
+            <div style="flex:0 0 100px;"><div class="pir-label">Nitrogen (N)</div><div class="pir-value">90 ppm</div></div>
+            <div class="pir-bar"><div class="pir-fill" style="width:64%;background:var(--grad-primary);"></div></div>
+          </div>
+
+          <div class="panel-input-row">
+            <div class="pir-icon fi-blue"><i class="bi bi-droplet-half" aria-hidden="true"></i></div>
+            <div style="flex:0 0 100px;"><div class="pir-label">Phosphorus (P)</div><div class="pir-value">42 ppm</div></div>
+            <div class="pir-bar"><div class="pir-fill" style="width:29%;background:linear-gradient(135deg,#38bdf8,#0ea5e9);"></div></div>
+          </div>
+
+          <div class="panel-input-row">
+            <div class="pir-icon fi-amber"><i class="bi bi-lightning" aria-hidden="true"></i></div>
+            <div style="flex:0 0 100px;"><div class="pir-label">Potassium (K)</div><div class="pir-value">43 ppm</div></div>
+            <div class="pir-bar"><div class="pir-fill" style="width:21%;background:linear-gradient(135deg,#fbbf24,#f59e0b);"></div></div>
+          </div>
+
+          <div class="panel-input-row">
+            <div class="pir-icon fi-rose"><i class="bi bi-thermometer-half" aria-hidden="true"></i></div>
+            <div style="flex:0 0 100px;"><div class="pir-label">Temperature</div><div class="pir-value">20.8°C</div></div>
+            <div class="pir-bar"><div class="pir-fill" style="width:36%;background:linear-gradient(135deg,#fb7185,#e11d48);"></div></div>
+          </div>
+
+          <div class="panel-input-row">
+            <div class="pir-icon fi-teal"><i class="bi bi-water" aria-hidden="true"></i></div>
+            <div style="flex:0 0 100px;"><div class="pir-label">Humidity</div><div class="pir-value">82.0%</div></div>
+            <div class="pir-bar"><div class="pir-fill" style="width:80%;background:linear-gradient(135deg,#2dd4bf,#0d9488);"></div></div>
+          </div>
+
+          <div class="panel-input-row">
+            <div class="pir-icon fi-violet"><i class="bi bi-eyedropper" aria-hidden="true"></i></div>
+            <div style="flex:0 0 100px;"><div class="pir-label">pH Level</div><div class="pir-value">6.50</div></div>
+            <div class="pir-bar"><div class="pir-fill" style="width:46%;background:linear-gradient(135deg,#a78bfa,#7c3aed);"></div></div>
+          </div>
+
+          <div class="panel-input-row">
+            <div class="pir-icon" style="background:rgba(14,165,233,0.15);border:1px solid rgba(14,165,233,0.25);color:#38bdf8;"><i class="bi bi-cloud-rain" aria-hidden="true"></i></div>
+            <div style="flex:0 0 100px;"><div class="pir-label">Rainfall</div><div class="pir-value">202 mm</div></div>
+            <div class="pir-bar"><div class="pir-fill" style="width:66%;background:linear-gradient(135deg,#38bdf8,#0ea5e9);"></div></div>
+          </div>
+
+          <div style="margin-top:16px;padding:14px;background:rgba(22,163,74,0.08);border:1px solid rgba(22,163,74,0.18);border-radius:12px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.3rem;">🌾</span>
+            <div>
+              <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">AI Recommendation</div>
+              <div style="font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:800;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Rice — 96.4% Confidence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 2: INFORMATION BANNER
+══════════════════════════════════════════════════════════ -->
+<section id="info-banner" aria-label="How the prediction works">
+  <div class="container">
+    <div class="info-banner-card">
+      <div class="row g-4 align-items-start">
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="info-banner-item">
+            <div class="ibi-icon fi-green"><i class="bi bi-bullseye" aria-hidden="true"></i></div>
+            <div>
+              <div class="ibi-title">Why Accuracy Matters</div>
+              <div class="ibi-desc">Each parameter directly affects the ML model's decision boundary. Even small deviations in pH or NPK can change the predicted crop class — use calibrated instruments for best results.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-divider d-none d-lg-block"></div>
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="info-banner-item">
+            <div class="ibi-icon fi-blue"><i class="bi bi-cpu" aria-hidden="true"></i></div>
+            <div>
+              <div class="ibi-title">How AI Prediction Works</div>
+              <div class="ibi-desc">Your 7 parameters are normalized via StandardScaler, then fed into a pre-trained Random Forest classifier (300 estimators). The model returns the highest-probability crop class with a confidence score.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-divider d-none d-lg-block"></div>
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="info-banner-item">
+            <div class="ibi-icon fi-amber"><i class="bi bi-lightning-charge" aria-hidden="true"></i></div>
+            <div>
+              <div class="ibi-title">Estimated Time</div>
+              <div class="ibi-desc">Prediction typically completes in <strong style="color:#f1f5f9;">under 50 milliseconds</strong>. The pre-serialized .pkl model is loaded once at server startup, eliminating re-training overhead on every request.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-divider d-none d-lg-block"></div>
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="info-banner-item">
+            <div class="ibi-icon fi-violet"><i class="bi bi-shield-lock" aria-hidden="true"></i></div>
+            <div>
+              <div class="ibi-title">Privacy Notice</div>
+              <div class="ibi-desc">Your inputs are processed server-side only for the active prediction request. No soil data is stored, logged, or shared. OptiCrop does not retain any personally identifiable or agronomic data.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 3: CROP PREDICTION FORM
+══════════════════════════════════════════════════════════ -->
+<section id="prediction-form-section" aria-label="Crop prediction input form">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-clipboard2-data-fill" aria-hidden="true"></i> Soil &amp; Climate Parameters</span>
+      <h2 class="section-title mt-2">Enter Your <span>Field Data</span></h2>
+      <p class="section-subtitle mt-3">Provide 7 agronomic measurements. All fields are required for accurate Machine Learning prediction.</p>
+    </div>
+
+    <div class="form-main-card fade-in-up-p">
+
+      <!-- Card Header -->
+      <div class="form-card-header">
+        <div>
+          <h3 class="form-card-title">🌱 AI Crop Prediction Form</h3>
+          <div class="form-card-subtitle">Powered by Random Forest · Scikit-Learn · 99.5% Accuracy</div>
+        </div>
+        <div class="form-step-badges">
+          <span class="step-badge"><i class="bi bi-1-circle" aria-hidden="true"></i> Enter Parameters</span>
+          <span class="step-badge"><i class="bi bi-2-circle" aria-hidden="true"></i> Validate</span>
+          <span class="step-badge"><i class="bi bi-3-circle" aria-hidden="true"></i> Get Recommendation</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="form-progress-bar" role="progressbar" aria-label="Form completion progress" aria-valuemin="0" aria-valuemax="100">
+        <div class="form-progress-fill" id="formProgressFill"></div>
+      </div>
+      <div class="form-progress-label" id="formProgressLabel">
+        <span style="color:#64748b;font-size:0.72rem;">Fill all 7 fields to enable prediction</span>
+        <span class="pct-val" aria-live="polite">0/7 fields complete</span>
+      </div>
+
+      <!-- Server / Network Error Alert (populated by showError() in predict.js) -->
+      <div id="predict-error-msg"
+           role="alert"
+           aria-live="assertive"
+           style="display:none;margin:0 0 1rem;padding:0.9rem 1.2rem;
+                  background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.35);
+                  border-radius:12px;color:#fca5a5;font-size:0.88rem;
+                  display:none;align-items:center;gap:0.6rem;">
+        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true" style="color:#f87171;flex-shrink:0;"></i>
+        <span id="predict-error-text"></span>
+      </div>
+
+      <form method="POST" action="{{ url_for('main.predict') }}" id="cropForm" novalidate autocomplete="off">
+
+        <div class="form-card-body">
+
+          <div class="row g-0">
+
+            <!-- ── NUTRIENT PARAMETERS COLUMN ────────────────── -->
+            <div class="col-lg-6 pe-lg-4">
+              <div class="mb-4 pb-2 border-bottom" style="border-color:var(--dark-border)!important;">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span style="font-size:1.2rem;">🧪</span>
+                  <h4 style="font-family:'Outfit',sans-serif;font-size:0.92rem;font-weight:800;color:var(--text-secondary);margin:0;text-transform:uppercase;letter-spacing:0.06em;">Soil Nutrient Profile</h4>
+                </div>
+                <p style="font-size:0.78rem;color:var(--text-muted);margin:0;">Obtain values from a certified soil testing laboratory or the Government Soil Health Card scheme.</p>
+              </div>
+
+              <!-- Nitrogen -->
+              <div class="predict-input-group" id="group-nitrogen">
+                <label for="nitrogen" class="predict-input-label">
+                  <span class="field-icon fi-green"><i class="bi bi-activity" aria-hidden="true"></i></span>
+                  Nitrogen (N)
+                  <span class="field-unit">ppm</span>
+                </label>
+                <div class="predict-input-wrapper">
+                  <input type="number" id="nitrogen" name="nitrogen" class="predict-input" placeholder="e.g. 90" min="0" max="140" step="1" aria-required="true" aria-describedby="nitrogen-desc err-nitrogen" data-tooltip="Available Nitrogen in soil (mg/kg). Range: 0–140 ppm." />
+                  <span class="input-prefix-icon" aria-hidden="true"><i class="bi bi-activity"></i></span>
+                  <span class="input-tooltip-btn" tabindex="0" role="tooltip" title="Available Nitrogen in soil. Obtained from soil test. Range: 0–140 mg/kg." aria-label="Nitrogen tooltip">?</span>
+                </div>
+                <div class="input-range-hint" aria-hidden="true">
+                  <span class="range-min">0</span>
+                  <div class="range-bar-track"><div class="range-bar-fill" id="bar-nitrogen"></div></div>
+                  <span class="range-max">140</span>
+                </div>
+                <div id="nitrogen-desc" class="field-desc">Available nitrogen (N) content in soil (mg/kg). Rice requires ~80–120 ppm; Maize ~100–140 ppm.</div>
+                <div id="err-nitrogen" class="invalid-feedback-custom" role="alert"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span class="err-text">Nitrogen is required.</span></div>
+                <div id="ok-nitrogen" class="valid-feedback-custom"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Valid value</div>
+              </div>
+
+              <!-- Phosphorus -->
+              <div class="predict-input-group" id="group-phosphorus">
+                <label for="phosphorus" class="predict-input-label">
+                  <span class="field-icon fi-blue"><i class="bi bi-droplet-half" aria-hidden="true"></i></span>
+                  Phosphorus (P)
+                  <span class="field-unit">ppm</span>
+                </label>
+                <div class="predict-input-wrapper">
+                  <input type="number" id="phosphorus" name="phosphorus" class="predict-input" placeholder="e.g. 42" min="5" max="145" step="1" aria-required="true" aria-describedby="phosphorus-desc err-phosphorus" data-tooltip="Available Phosphorus (P2O5) in soil. Range: 5–145 ppm." />
+                  <span class="input-prefix-icon" aria-hidden="true"><i class="bi bi-droplet-half"></i></span>
+                  <span class="input-tooltip-btn" tabindex="0" role="tooltip" title="Available Phosphorus (P₂O₅) in soil. Range: 5–145 ppm." aria-label="Phosphorus tooltip">?</span>
+                </div>
+                <div class="input-range-hint" aria-hidden="true">
+                  <span class="range-min">5</span>
+                  <div class="range-bar-track"><div class="range-bar-fill" id="bar-phosphorus"></div></div>
+                  <span class="range-max">145</span>
+                </div>
+                <div id="phosphorus-desc" class="field-desc">Available phosphorus (P₂O₅) content in soil (mg/kg). Essential for root development and flowering.</div>
+                <div id="err-phosphorus" class="invalid-feedback-custom" role="alert"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span class="err-text">Phosphorus is required.</span></div>
+                <div id="ok-phosphorus" class="valid-feedback-custom"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Valid value</div>
+              </div>
+
+              <!-- Potassium -->
+              <div class="predict-input-group" id="group-potassium">
+                <label for="potassium" class="predict-input-label">
+                  <span class="field-icon fi-amber"><i class="bi bi-lightning" aria-hidden="true"></i></span>
+                  Potassium (K)
+                  <span class="field-unit">ppm</span>
+                </label>
+                <div class="predict-input-wrapper">
+                  <input type="number" id="potassium" name="potassium" class="predict-input" placeholder="e.g. 43" min="5" max="205" step="1" aria-required="true" aria-describedby="potassium-desc err-potassium" data-tooltip="Exchangeable Potassium (K₂O) in soil. Range: 5–205 ppm." />
+                  <span class="input-prefix-icon" aria-hidden="true"><i class="bi bi-lightning"></i></span>
+                  <span class="input-tooltip-btn" tabindex="0" role="tooltip" title="Exchangeable Potassium (K₂O) in soil. Range: 5–205 ppm." aria-label="Potassium tooltip">?</span>
+                </div>
+                <div class="input-range-hint" aria-hidden="true">
+                  <span class="range-min">5</span>
+                  <div class="range-bar-track"><div class="range-bar-fill" id="bar-potassium"></div></div>
+                  <span class="range-max">205</span>
+                </div>
+                <div id="potassium-desc" class="field-desc">Exchangeable potassium (K₂O) in soil (mg/kg). Important for disease resistance and water regulation.</div>
+                <div id="err-potassium" class="invalid-feedback-custom" role="alert"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span class="err-text">Potassium is required.</span></div>
+                <div id="ok-potassium" class="valid-feedback-custom"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Valid value</div>
+              </div>
+
+              <!-- pH -->
+              <div class="predict-input-group" id="group-ph">
+                <label for="ph" class="predict-input-label">
+                  <span class="field-icon fi-violet"><i class="bi bi-eyedropper" aria-hidden="true"></i></span>
+                  Soil pH Level
+                  <span class="field-unit">pH</span>
+                </label>
+                <div class="predict-input-wrapper">
+                  <input type="number" id="ph" name="ph" class="predict-input" placeholder="e.g. 6.5" min="3.5" max="10" step="0.01" aria-required="true" aria-describedby="ph-desc err-ph" data-tooltip="Soil pH (acidity/alkalinity). Neutral is 7.0. Most crops prefer 5.5–7.5." />
+                  <span class="input-prefix-icon" aria-hidden="true"><i class="bi bi-eyedropper"></i></span>
+                  <span class="input-tooltip-btn" tabindex="0" role="tooltip" title="Soil pH — acidity or alkalinity. Neutral = 7.0. Measured via pH meter or soil test strip." aria-label="pH tooltip">?</span>
+                </div>
+                <div class="input-range-hint" aria-hidden="true">
+                  <span class="range-min">3.5</span>
+                  <div class="range-bar-track"><div class="range-bar-fill" id="bar-ph"></div></div>
+                  <span class="range-max">10</span>
+                </div>
+                <div id="ph-desc" class="field-desc">Soil pH measures acidity (below 7) or alkalinity (above 7). Most crops thrive between 5.5 and 7.5 pH.</div>
+                <div id="err-ph" class="invalid-feedback-custom" role="alert"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span class="err-text">pH is required.</span></div>
+                <div id="ok-ph" class="valid-feedback-custom"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Valid value</div>
+              </div>
+            </div>
+
+            <!-- ── ENVIRONMENTAL PARAMETERS COLUMN ──────────── -->
+            <div class="col-lg-6 ps-lg-4 border-start" style="border-color:var(--dark-border)!important;">
+              <div class="mb-4 pb-2 border-bottom" style="border-color:var(--dark-border)!important;">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span style="font-size:1.2rem;">🌡️</span>
+                  <h4 style="font-family:'Outfit',sans-serif;font-size:0.92rem;font-weight:800;color:var(--text-secondary);margin:0;text-transform:uppercase;letter-spacing:0.06em;">Environmental Conditions</h4>
+                </div>
+                <p style="font-size:0.78rem;color:var(--text-muted);margin:0;">Use local meteorological data, weather stations, or the IMD / OpenWeatherMap API for accurate values.</p>
+              </div>
+
+              <!-- Temperature -->
+              <div class="predict-input-group" id="group-temperature">
+                <label for="temperature" class="predict-input-label">
+                  <span class="field-icon fi-rose"><i class="bi bi-thermometer-half" aria-hidden="true"></i></span>
+                  Temperature
+                  <span class="field-unit">°C</span>
+                </label>
+                <div class="predict-input-wrapper">
+                  <input type="number" id="temperature" name="temperature" class="predict-input" placeholder="e.g. 20.8" min="8" max="44" step="0.1" aria-required="true" aria-describedby="temperature-desc err-temperature" data-tooltip="Mean annual temperature in °C. Range: 8–44°C." />
+                  <span class="input-prefix-icon" aria-hidden="true"><i class="bi bi-thermometer-half"></i></span>
+                  <span class="input-tooltip-btn" tabindex="0" role="tooltip" title="Mean annual temperature (°C) for your region. Refer to local weather station or historical IMD data." aria-label="Temperature tooltip">?</span>
+                </div>
+                <div class="input-range-hint" aria-hidden="true">
+                  <span class="range-min">8°C</span>
+                  <div class="range-bar-track"><div class="range-bar-fill" id="bar-temperature"></div></div>
+                  <span class="range-max">44°C</span>
+                </div>
+                <div id="temperature-desc" class="field-desc">Average annual temperature in degrees Celsius. Tropical crops (Rice, Banana) prefer 24–30°C; temperate crops (Apple) prefer 8–18°C.</div>
+                <div id="err-temperature" class="invalid-feedback-custom" role="alert"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span class="err-text">Temperature is required.</span></div>
+                <div id="ok-temperature" class="valid-feedback-custom"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Valid value</div>
+              </div>
+
+              <!-- Humidity -->
+              <div class="predict-input-group" id="group-humidity">
+                <label for="humidity" class="predict-input-label">
+                  <span class="field-icon fi-teal"><i class="bi bi-water" aria-hidden="true"></i></span>
+                  Relative Humidity
+                  <span class="field-unit">%</span>
+                </label>
+                <div class="predict-input-wrapper">
+                  <input type="number" id="humidity" name="humidity" class="predict-input" placeholder="e.g. 82.0" min="14" max="100" step="0.1" aria-required="true" aria-describedby="humidity-desc err-humidity" data-tooltip="Mean relative humidity (%). Range: 14–100%." />
+                  <span class="input-prefix-icon" aria-hidden="true"><i class="bi bi-water"></i></span>
+                  <span class="input-tooltip-btn" tabindex="0" role="tooltip" title="Average relative humidity (%) for your region. Obtained from weather station or IMD data." aria-label="Humidity tooltip">?</span>
+                </div>
+                <div class="input-range-hint" aria-hidden="true">
+                  <span class="range-min">14%</span>
+                  <div class="range-bar-track"><div class="range-bar-fill" id="bar-humidity"></div></div>
+                  <span class="range-max">100%</span>
+                </div>
+                <div id="humidity-desc" class="field-desc">Mean relative humidity (%) of the growing region. High humidity (&gt;80%) favours Rice; low humidity (&lt;40%) suits Cotton and Chickpea.</div>
+                <div id="err-humidity" class="invalid-feedback-custom" role="alert"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span class="err-text">Humidity is required.</span></div>
+                <div id="ok-humidity" class="valid-feedback-custom"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Valid value</div>
+              </div>
+
+              <!-- Rainfall -->
+              <div class="predict-input-group" id="group-rainfall">
+                <label for="rainfall" class="predict-input-label">
+                  <span class="field-icon" style="background:rgba(14,165,233,0.15);border:1px solid rgba(14,165,233,0.25);color:#38bdf8;"><i class="bi bi-cloud-rain" aria-hidden="true"></i></span>
+                  Annual Rainfall
+                  <span class="field-unit">mm</span>
+                </label>
+                <div class="predict-input-wrapper">
+                  <input type="number" id="rainfall" name="rainfall" class="predict-input" placeholder="e.g. 202.9" min="20" max="300" step="0.1" aria-required="true" aria-describedby="rainfall-desc err-rainfall" data-tooltip="Annual or seasonal rainfall in millimetres. Range: 20–300 mm." />
+                  <span class="input-prefix-icon" aria-hidden="true"><i class="bi bi-cloud-rain"></i></span>
+                  <span class="input-tooltip-btn" tabindex="0" role="tooltip" title="Annual or seasonal rainfall in millimetres. Use IMD district rainfall data or local rain gauge readings." aria-label="Rainfall tooltip">?</span>
+                </div>
+                <div class="input-range-hint" aria-hidden="true">
+                  <span class="range-min">20 mm</span>
+                  <div class="range-bar-track"><div class="range-bar-fill" id="bar-rainfall"></div></div>
+                  <span class="range-max">300 mm</span>
+                </div>
+                <div id="rainfall-desc" class="field-desc">Annual rainfall in millimetres. Rice requires 200+ mm; Millets and Pulses can thrive with 40–100 mm.</div>
+                <div id="err-rainfall" class="invalid-feedback-custom" role="alert"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span class="err-text">Rainfall is required.</span></div>
+                <div id="ok-rainfall" class="valid-feedback-custom"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Valid value</div>
+              </div>
+
+              <!-- Quick Fill Demo Row -->
+              <div class="mt-3 p-3 rounded-3" style="background:rgba(22,163,74,0.05);border:1px dashed rgba(22,163,74,0.2);">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-magic" style="color:#22c55e;" aria-hidden="true"></i>
+                  <span style="font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:700;color:#94a3b8;">Quick Fill — Sample Data</span>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                  <button type="button" class="btn btn-sm" id="fillRice" style="background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.2);color:#22c55e;font-family:'Outfit',sans-serif;font-size:0.72rem;font-weight:600;border-radius:99px;" aria-label="Fill Rice example values">🌾 Rice</button>
+                  <button type="button" class="btn btn-sm" id="fillMaize" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);color:#fbbf24;font-family:'Outfit',sans-serif;font-size:0.72rem;font-weight:600;border-radius:99px;" aria-label="Fill Maize example values">🌽 Maize</button>
+                  <button type="button" class="btn btn-sm" id="fillJute" style="background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.2);color:#38bdf8;font-family:'Outfit',sans-serif;font-size:0.72rem;font-weight:600;border-radius:99px;" aria-label="Fill Jute example values">🪢 Jute</button>
+                  <button type="button" class="btn btn-sm" id="fillCotton" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);color:#a78bfa;font-family:'Outfit',sans-serif;font-size:0.72rem;font-weight:600;border-radius:99px;" aria-label="Fill Cotton example values">☁️ Cotton</button>
+                </div>
+                <p style="font-size:0.72rem;color:#475569;margin:8px 0 0;">Demo only. Replace with actual soil test values for real predictions.</p>
+              </div>
+
+            </div>
+          </div><!-- /row -->
+
+        </div><!-- /form-card-body -->
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="submit" id="predictBtn" class="btn-predict" disabled aria-label="Submit soil data for AI crop prediction">
+            <i class="bi bi-cpu-fill" aria-hidden="true"></i>
+            <span>Predict Crop</span>
+            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </button>
+
+          <button type="button" id="resetBtn" class="btn-reset" aria-label="Reset form to default values">
+            <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset
+          </button>
+
+          <button type="button" id="clearBtn" class="btn-clear" aria-label="Clear all form fields">
+            <i class="bi bi-trash3" aria-hidden="true"></i> Clear All
+          </button>
+
+          <div class="ms-auto d-flex align-items-center gap-2">
+            <i class="bi bi-shield-check-fill" style="color:#22c55e;font-size:0.9rem;" aria-hidden="true"></i>
+            <span style="font-size:0.75rem;color:#64748b;">99.5% Accuracy · Random Forest</span>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Quick fill JS (inline – minimal, page-specific) -->
+<script>
+(function(){
+  const SAMPLES = {
+    fillRice:   {nitrogen:90,  phosphorus:42, potassium:43,  temperature:20.8, humidity:82.0,  ph:6.50, rainfall:202.9},
+    fillMaize:  {nitrogen:75,  phosphorus:68, potassium:98,  temperature:22.6, humidity:62.3,  ph:6.10, rainfall:89.5},
+    fillJute:   {nitrogen:78,  phosphorus:46, potassium:39,  temperature:25.0, humidity:79.9,  ph:6.74, rainfall:174.6},
+    fillCotton: {nitrogen:118, phosphorus:46, potassium:20,  temperature:23.9, humidity:79.4,  ph:6.86, rainfall:51.8},
+  };
+  ['fillRice','fillMaize','fillJute','fillCotton'].forEach(id=>{
+    document.getElementById(id)?.addEventListener('click',()=>{
+      const s = SAMPLES[id];
+      ['nitrogen','phosphorus','potassium','temperature','humidity','ph','rainfall'].forEach(f=>{
+        const el = document.getElementById(f);
+        if(el){ el.value=s[f]; el.dispatchEvent(new Event('input')); el.dispatchEvent(new Event('blur')); }
+      });
+    });
+  });
+})();
+</script>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     RESULT PLACEHOLDER (hidden until prediction)
+══════════════════════════════════════════════════════════ -->
+<section id="result-section" aria-label="Prediction result" aria-live="polite">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label" style="background:rgba(22,163,74,0.12);border-color:rgba(22,163,74,0.25);"><i class="bi bi-patch-check-fill" aria-hidden="true"></i> AI Recommendation Ready</span>
+      <h2 class="section-title mt-2">Your Crop <span>Recommendation</span></h2>
+    </div>
+
+    <div class="result-main-card">
+
+      <!-- Result Header -->
+      <div class="result-header">
+        <div class="result-success-badge" aria-hidden="true">✅</div>
+        <div class="flex-grow-1">
+          <div class="result-header-label">Recommended Crop</div>
+          <div class="result-crop-name" id="resultCropName">—</div>
+          <div class="result-confidence-row">
+            <div class="result-conf-num" id="resultConfNum">—%</div>
+            <div class="result-conf-bar" role="progressbar" aria-label="Confidence level" aria-valuemin="0" aria-valuemax="100">
+              <div class="result-conf-fill" id="resultConfFill" style="width:0%;"></div>
+            </div>
+            <div class="result-conf-label" id="resultConfLabel">Confidence Level</div>
+          </div>
+        </div>
+        <div>
+          <div style="background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.2);border-radius:12px;padding:14px;text-align:center;">
+            <div style="font-size:0.68rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Prediction Time</div>
+            <div id="resultPredTime" style="font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:800;color:#22c55e;">— ms</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Body -->
+      <div class="result-body">
+        <div class="row g-4">
+
+          <!-- Left: Stats + Summary -->
+          <div class="col-lg-7">
+            <div class="result-stat-grid" role="list" aria-label="Crop statistics">
+              <div class="result-stat" role="listitem"><span class="result-stat-icon" aria-hidden="true">🌿</span><div class="result-stat-val" id="resultCropNameRec">—</div><div class="result-stat-key">Crop Name</div></div>
+              <div class="result-stat" role="listitem"><span class="result-stat-icon" aria-hidden="true">📅</span><div class="result-stat-val" id="resultSeason">—</div><div class="result-stat-key">Season</div></div>
+              <div class="result-stat" role="listitem"><span class="result-stat-icon" aria-hidden="true">🪨</span><div class="result-stat-val" id="resultSoilType">—</div><div class="result-stat-key">Soil Type</div></div>
+              <div class="result-stat" role="listitem"><span class="result-stat-icon" aria-hidden="true">💧</span><div class="result-stat-val" id="resultWaterReq">—</div><div class="result-stat-key">Water Requirement</div></div>
+            </div>
+
+            <div class="prediction-advice">
+              <div class="prediction-advice-title">
+                <i class="bi bi-lightbulb-fill" style="color:#f59e0b;" aria-hidden="true"></i>
+                Recommendation Summary
+              </div>
+              <p id="resultSummaryText">Your prediction results will appear here after analysis.</p>
+            </div>
+          </div>
+
+          <!-- Right: Recommendation Panel -->
+          <div class="col-lg-5">
+            <div class="rec-panel">
+              <div class="rec-panel-header"><i class="bi bi-list-check" aria-hidden="true"></i> Farming Tips</div>
+              <div style="padding:16px 22px;">
+                <ul id="resultTipsList" style="list-style:none;padding:0;margin:0;" role="list">
+                  <li style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.83rem;color:#64748b;"><span class="skeleton" style="width:100%;"></span></li>
+                  <li style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.83rem;color:#64748b;"><span class="skeleton" style="width:90%;"></span></li>
+                  <li style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.83rem;color:#64748b;"><span class="skeleton" style="width:95%;"></span></li>
+                </ul>
+              </div>
+
+              <div class="rec-panel-header" style="border-top:1px solid var(--dark-border);">
+                <i class="bi bi-star-fill" style="color:#f59e0b;" aria-hidden="true"></i> Advantages
+              </div>
+              <div style="padding:16px 22px;">
+                <ul id="resultAdvList" style="list-style:none;padding:0;margin:0;" role="list">
+                  <li style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.83rem;color:#64748b;"><span class="skeleton" style="width:100%;"></span></li>
+                  <li style="display:flex;align-items:center;gap:8px;font-size:0.83rem;color:#64748b;"><span class="skeleton" style="width:80%;"></span></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-3 d-flex gap-2 flex-wrap">
+              <a href="#prediction-form-section" class="btn-outline-custom" style="font-size:0.82rem;padding:10px 18px;" aria-label="Make another prediction">
+                <i class="bi bi-arrow-repeat" aria-hidden="true"></i> New Prediction
+              </a>
+              <button type="button" class="btn-outline-custom" style="font-size:0.82rem;padding:10px 18px;" onclick="window.print()" aria-label="Print crop recommendation">
+                <i class="bi bi-printer" aria-hidden="true"></i> Print Report
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION: USER GUIDANCE
+══════════════════════════════════════════════════════════ -->
+<section id="user-guidance" aria-label="User guidance for accurate prediction">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-book-fill" aria-hidden="true"></i> Measurement Guide</span>
+      <h2 class="section-title mt-2">How to <span>Measure Parameters</span></h2>
+      <p class="section-subtitle mt-3">Accurate measurements ensure the most reliable AI crop recommendations. Follow these best practices.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-3 fade-in-up-p delay-1">
+        <article class="guidance-card">
+          <span class="guidance-icon" aria-hidden="true">🧪</span>
+          <h3 class="guidance-title">How to Measure NPK</h3>
+          <ul class="guidance-steps" role="list">
+            <li>Collect soil from 10–15 spots at 0–15 cm depth</li>
+            <li>Mix samples and take 500g composite sample</li>
+            <li>Send to certified soil testing lab or use the Soil Health Card scheme</li>
+            <li>Use digital NPK soil meters for quick field readings</li>
+            <li>Record values in mg/kg (ppm) as reported by the lab</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up-p delay-2">
+        <article class="guidance-card">
+          <span class="guidance-icon" aria-hidden="true">🧫</span>
+          <h3 class="guidance-title">How to Measure pH</h3>
+          <ul class="guidance-steps" role="list">
+            <li>Mix 1 part soil with 2.5 parts distilled water</li>
+            <li>Allow suspension to settle for 30 minutes</li>
+            <li>Calibrate pH meter with buffer solutions (4.0 and 7.0)</li>
+            <li>Insert probe and record stable reading</li>
+            <li>pH strips are acceptable but less accurate than meters</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up-p delay-3">
+        <article class="guidance-card">
+          <span class="guidance-icon" aria-hidden="true">🌡️</span>
+          <h3 class="guidance-title">Temperature &amp; Humidity</h3>
+          <ul class="guidance-steps" role="list">
+            <li>Use mean annual temperature from IMD station data</li>
+            <li>Download district-level data from data.gov.in</li>
+            <li>Use a digital thermo-hygrometer for local readings</li>
+            <li>OpenWeatherMap API provides historical averages</li>
+            <li>Avoid using extreme single-day readings</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up-p delay-4">
+        <article class="guidance-card">
+          <span class="guidance-icon" aria-hidden="true">⚠️</span>
+          <h3 class="guidance-title">Common Mistakes</h3>
+          <ul class="guidance-steps" role="list">
+            <li>Using old soil test reports (more than 2 years old)</li>
+            <li>Collecting samples only from the surface layer</li>
+            <li>Mixing samples from different field zones</li>
+            <li>Using rainfall from a different season or year</li>
+            <li>Entering temperature in Fahrenheit instead of Celsius</li>
+          </ul>
+        </article>
+      </div>
+
+    </div>
+
+    <!-- Recommended Units Table -->
+    <div class="mt-5 p-4 rounded-3" style="background:var(--dark-card);border:1px solid var(--dark-border);">
+      <h3 style="font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+        <i class="bi bi-table" style="color:#22c55e;" aria-hidden="true"></i> Recommended Units &amp; Valid Ranges
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-borderless mb-0" style="--bs-table-bg:transparent;--bs-table-color:var(--text-secondary);" aria-label="Parameter ranges table">
+          <thead style="border-bottom:1px solid var(--dark-border);">
+            <tr>
+              <th style="font-family:'Outfit',sans-serif;font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Parameter</th>
+              <th style="font-family:'Outfit',sans-serif;font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Unit</th>
+              <th style="font-family:'Outfit',sans-serif;font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Min</th>
+              <th style="font-family:'Outfit',sans-serif;font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Max</th>
+              <th style="font-family:'Outfit',sans-serif;font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:700;">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>🟢 Nitrogen (N)</td><td><code style="color:#22c55e;background:rgba(22,163,74,0.1);padding:2px 6px;border-radius:4px;">ppm</code></td><td>0</td><td>140</td><td style="color:#64748b;">Available N (mg/kg). Soil test lab value.</td></tr>
+            <tr><td>🔵 Phosphorus (P)</td><td><code style="color:#38bdf8;background:rgba(14,165,233,0.1);padding:2px 6px;border-radius:4px;">ppm</code></td><td>5</td><td>145</td><td style="color:#64748b;">Available P₂O₅ (mg/kg). Olsen or Bray method.</td></tr>
+            <tr><td>🟡 Potassium (K)</td><td><code style="color:#fbbf24;background:rgba(245,158,11,0.1);padding:2px 6px;border-radius:4px;">ppm</code></td><td>5</td><td>205</td><td style="color:#64748b;">Exchangeable K₂O (mg/kg). NH₄OAc extraction.</td></tr>
+            <tr><td>🌡️ Temperature</td><td><code style="color:#fb7185;background:rgba(244,63,94,0.1);padding:2px 6px;border-radius:4px;">°C</code></td><td>8</td><td>44</td><td style="color:#64748b;">Mean annual temperature. NOT daily max/min.</td></tr>
+            <tr><td>💧 Humidity</td><td><code style="color:#2dd4bf;background:rgba(45,212,191,0.1);padding:2px 6px;border-radius:4px;">%</code></td><td>14</td><td>100</td><td style="color:#64748b;">Mean annual relative humidity (%).</td></tr>
+            <tr><td>🧫 pH Level</td><td><code style="color:#a78bfa;background:rgba(167,139,250,0.1);padding:2px 6px;border-radius:4px;">pH</code></td><td>3.5</td><td>10</td><td style="color:#64748b;">Soil pH. 7.0 = neutral. Accept 2 decimal places.</td></tr>
+            <tr><td>🌧️ Rainfall</td><td><code style="color:#38bdf8;background:rgba(14,165,233,0.1);padding:2px 6px;border-radius:4px;">mm</code></td><td>20</td><td>300</td><td style="color:#64748b;">Annual or seasonal rainfall total (millimetres).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION: AI WORKFLOW VISUALIZATION
+══════════════════════════════════════════════════════════ -->
+<section id="ai-workflow" aria-label="AI prediction workflow">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-diagram-3-fill" aria-hidden="true"></i> Prediction Pipeline</span>
+      <h2 class="section-title mt-2">The AI <span>Workflow</span></h2>
+      <p class="section-subtitle mt-3">From your soil parameters to a data-driven crop recommendation — here's how OptiCrop's ML pipeline works.</p>
+    </div>
+
+    <div class="workflow-track" role="list" aria-label="AI workflow steps">
+
+      <div class="wf-step fade-in-up-p delay-1" role="listitem">
+        <div class="wf-circle"><span aria-hidden="true">📋</span></div>
+        <div class="wf-label">User Input</div>
+        <div class="wf-desc">7 parameters entered via web form</div>
+      </div>
+
+      <div class="wf-arrow" aria-hidden="true"><i class="bi bi-arrow-right-short"></i></div>
+
+      <div class="wf-step fade-in-up-p delay-2" role="listitem">
+        <div class="wf-circle"><i class="bi bi-shield-check" aria-hidden="true" style="color:#22c55e;"></i></div>
+        <div class="wf-label">Validation</div>
+        <div class="wf-desc">Range checks &amp; data type validation</div>
+      </div>
+
+      <div class="wf-arrow" aria-hidden="true"><i class="bi bi-arrow-right-short"></i></div>
+
+      <div class="wf-step fade-in-up-p delay-3" role="listitem">
+        <div class="wf-circle"><span aria-hidden="true">🌶️</span></div>
+        <div class="wf-label">Flask Backend</div>
+        <div class="wf-desc">Route handler receives POST request</div>
+      </div>
+
+      <div class="wf-arrow" aria-hidden="true"><i class="bi bi-arrow-right-short"></i></div>
+
+      <div class="wf-step fade-in-up-p delay-4" role="listitem">
+        <div class="wf-circle"><span aria-hidden="true">⚙️</span></div>
+        <div class="wf-label">Preprocessing</div>
+        <div class="wf-desc">StandardScaler normalization</div>
+      </div>
+
+      <div class="wf-arrow" aria-hidden="true"><i class="bi bi-arrow-right-short"></i></div>
+
+      <div class="wf-step fade-in-up-p delay-5" role="listitem">
+        <div class="wf-circle"><span aria-hidden="true">🌲</span></div>
+        <div class="wf-label">Random Forest</div>
+        <div class="wf-desc">300-tree ensemble inference</div>
+      </div>
+
+      <div class="wf-arrow" aria-hidden="true"><i class="bi bi-arrow-right-short"></i></div>
+
+      <div class="wf-step fade-in-up-p delay-6" role="listitem">
+        <div class="wf-circle" style="border-color:rgba(22,163,74,0.5);background:rgba(22,163,74,0.06);box-shadow:0 0 25px rgba(22,163,74,0.3);">
+          <span aria-hidden="true">✅</span>
+        </div>
+        <div class="wf-label" style="color:#22c55e;">Recommendation</div>
+        <div class="wf-desc">Crop + confidence score returned</div>
+      </div>
+
+    </div>
+
+    <!-- Tech tags row -->
+    <div class="text-center mt-5" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+      <span class="footer-tech-pill">Python 3.11</span>
+      <span class="footer-tech-pill">Flask 3.0</span>
+      <span class="footer-tech-pill">Scikit-Learn 1.3</span>
+      <span class="footer-tech-pill">Random Forest</span>
+      <span class="footer-tech-pill">StandardScaler</span>
+      <span class="footer-tech-pill">Pickle .pkl</span>
+      <span class="footer-tech-pill">NumPy · Pandas</span>
+      <span class="footer-tech-pill">Bootstrap 5</span>
+    </div>
+
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION: FAQ
+══════════════════════════════════════════════════════════ -->
+<section id="predict-faq" aria-label="Frequently asked questions">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-question-circle-fill" aria-hidden="true"></i> FAQ</span>
+      <h2 class="section-title mt-2">Frequently Asked <span>Questions</span></h2>
+      <p class="section-subtitle mt-3">Everything you need to know about the AI crop prediction engine.</p>
+    </div>
+
+    <div class="predict-faq-wrap" id="predictFaqAccordion" role="list">
+
+      <div class="pfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="pfaq-button accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pfaq1" aria-expanded="true" aria-controls="pfaq1">
+            <div class="pfaq-icon" aria-hidden="true"><i class="bi bi-cpu"></i></div>
+            How does the AI crop prediction work?
+          </button>
+        </h3>
+        <div id="pfaq1" class="accordion-collapse collapse show" data-bs-parent="#predictFaqAccordion">
+          <div class="pfaq-body">
+            Your 7 soil and climate parameters are submitted to the Flask backend. The inputs are normalized using
+            <strong style="color:#f1f5f9;">StandardScaler</strong> (fitted on training data) and fed into a
+            <strong style="color:#f1f5f9;">Random Forest classifier</strong> (300 decision trees) trained on the Kaggle Crop
+            Recommendation Dataset (2,200 records, 22 crops). The model computes class probabilities for all 22 crops
+            and returns the crop with the highest probability along with its confidence score. Inference completes in under 50ms.
+          </div>
+        </div>
+      </div>
+
+      <div class="pfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="pfaq-button accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pfaq2" aria-expanded="false" aria-controls="pfaq2">
+            <div class="pfaq-icon" aria-hidden="true"><i class="bi bi-droplet-half"></i></div>
+            What is NPK in soil science?
+          </button>
+        </h3>
+        <div id="pfaq2" class="accordion-collapse collapse" data-bs-parent="#predictFaqAccordion">
+          <div class="pfaq-body">
+            <strong style="color:#f1f5f9;">N (Nitrogen)</strong> drives vegetative growth — it's essential for leaf and stem development.
+            <strong style="color:#f1f5f9;">P (Phosphorus)</strong> supports root development, flowering, and fruiting.
+            <strong style="color:#f1f5f9;">K (Potassium)</strong> regulates water uptake, disease resistance, and fruit quality.
+            All three are the primary macronutrients measured in soil tests and reported in mg/kg (ppm). Soil Health Cards
+            issued by the Indian government provide these values for registered farmland.
+          </div>
+        </div>
+      </div>
+
+      <div class="pfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="pfaq-button accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pfaq3" aria-expanded="false" aria-controls="pfaq3">
+            <div class="pfaq-icon" aria-hidden="true"><i class="bi bi-bar-chart"></i></div>
+            How accurate is the prediction?
+          </button>
+        </h3>
+        <div id="pfaq3" class="accordion-collapse collapse" data-bs-parent="#predictFaqAccordion">
+          <div class="pfaq-body">
+            The production model (Random Forest, 300 estimators) achieves <strong style="color:#22c55e;">99.5% accuracy</strong>
+            on the held-out test set (20% of 2,200 records). This was validated through
+            <strong style="color:#f1f5f9;">10-fold stratified cross-validation</strong>. F1-Score, Precision, Recall,
+            and ROC-AUC are all above 0.99. The accuracy may vary if your soil parameters fall outside the training distribution
+            (rare soils, extreme climates) — in such cases, treat the prediction as advisory rather than definitive.
+          </div>
+        </div>
+      </div>
+
+      <div class="pfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="pfaq-button accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pfaq4" aria-expanded="false" aria-controls="pfaq4">
+            <div class="pfaq-icon" aria-hidden="true"><i class="bi bi-flower1"></i></div>
+            Which crops can OptiCrop predict?
+          </button>
+        </h3>
+        <div id="pfaq4" class="accordion-collapse collapse" data-bs-parent="#predictFaqAccordion">
+          <div class="pfaq-body">
+            OptiCrop recommends from <strong style="color:#f1f5f9;">22 crop classes</strong>:
+            Rice, Maize, Chickpea, Kidneybeans, Pigeonpeas, Mothbeans, Mungbean, Blackgram, Lentil,
+            Pomegranate, Banana, Mango, Grapes, Watermelon, Muskmelon, Apple, Orange, Papaya,
+            Coconut, Cotton, Jute, and Coffee.
+            The model supports common Indian staple crops, cash crops, fruits, and pulses.
+          </div>
+        </div>
+      </div>
+
+      <div class="pfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="pfaq-button accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pfaq5" aria-expanded="false" aria-controls="pfaq5">
+            <div class="pfaq-icon" aria-hidden="true"><i class="bi bi-shield-lock"></i></div>
+            Is my soil data stored or shared?
+          </button>
+        </h3>
+        <div id="pfaq5" class="accordion-collapse collapse" data-bs-parent="#predictFaqAccordion">
+          <div class="pfaq-body">
+            No. OptiCrop does not store, log, or transmit your soil parameters beyond the active prediction request.
+            Your data is processed entirely server-side within the Flask session and discarded after the response is returned.
+            No database, external API, or third-party service receives your farm data.
+            OptiCrop is a SmartBridge capstone project for educational purposes and is not a commercial data platform.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION: CTA
+══════════════════════════════════════════════════════════ -->
+<section id="predict-cta" aria-label="Call to action">
+  <div class="container">
+    <div class="predict-cta-inner">
+      <span class="pcta-icon" aria-hidden="true">🔬</span>
+      <h2 class="pcta-title">Need More Agricultural Insights?</h2>
+      <p class="pcta-sub">
+        Explore the Machine Learning workflow, algorithm comparisons, use cases, and the science behind OptiCrop's
+        precision farming intelligence.
+      </p>
+      <a href="{{ url_for('main.about') }}" class="btn-pcta" id="cta-learn-btn">
+        <i class="bi bi-book-fill" aria-hidden="true"></i>
+        Learn About OptiCrop
+        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      </a>
+      <div style="display:flex;justify-content:center;gap:20px;margin-top:24px;flex-wrap:wrap;position:relative;z-index:1;">
+        <span style="font-size:0.76rem;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:5px;"><i class="bi bi-cpu-fill"></i> 5 ML Algorithms</span>
+        <span style="font-size:0.76rem;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:5px;"><i class="bi bi-flower1-fill"></i> 22 Crop Classes</span>
+        <span style="font-size:0.76rem;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:5px;"><i class="bi bi-bullseye"></i> 99.5% Accuracy</span>
+        <span style="font-size:0.76rem;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:5px;"><i class="bi bi-shield-fill-check"></i> Open Source</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+{# Page-specific JS #}
+{% block extra_js %}
+<script>
+  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el =>
+    new bootstrap.Tooltip(el, { placement: 'top', trigger: 'hover focus' })
+  );
+</script>
+<script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+{% endblock %}

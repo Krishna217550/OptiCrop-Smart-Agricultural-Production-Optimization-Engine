@@ -1,0 +1,70 @@
+# OptiCrop – .gitignore
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+venv/
+env/
+.venv/
+ENV/
+.env          # Runtime secrets — never commit
+# Keep .env.example (it's a template, not the real secrets)
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+logs/*.log
+logs/*.log.*
+
+# ── ML Models (large binary files — use Git LFS if versioning is required) ───
+# Uncomment the line below to exclude model.pkl from git history
+# models/*.pkl
+
+# ── Jupyter Notebooks checkpoints ────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── Test and coverage ─────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+*.coverage
+
+# ── IDEs ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-project
+*.sublime-workspace
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ── Distribution / packaging ──────────────────────────────────────────────────
+MANIFEST
+*.manifest
+*.spec
+
+# ── Flask instance folder ─────────────────────────────────────────────────────
+instance/

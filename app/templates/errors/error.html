@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{#
+  errors/error.html – Generic Error Page
+  Rendered by app/__init__.py for 400, 405, and any other HTTP errors.
+  All variables (code, title, headline, message, icon) are optional
+  and fall back to sensible defaults.
+#}
+
+{% block title %}{{ code | default('Error') }} – {{ title | default('Unexpected Error') }} | OptiCrop{% endblock %}
+{% block meta_description %}An error occurred in OptiCrop. Please return to the home page or try the crop prediction again.{% endblock %}
+{% block meta_robots %}noindex, nofollow{% endblock %}
+{% block body_page %}error{% endblock %}
+{% block body_id %}error-generic{% endblock %}
+
+{% block extra_css %}
+<style>
+  .error-section {
+    min-height: 82vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+  }
+  .error-code {
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 900;
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    line-height: 1;
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
+  }
+  .error-icon-wrap {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  .error-title {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--text-primary, #f1f5f9);
+    margin-bottom: 1rem;
+  }
+  .error-message {
+    font-size: 1.05rem;
+    color: var(--text-secondary, #94a3b8);
+    line-height: 1.75;
+    max-width: 480px;
+    margin: 0 auto 2.25rem;
+  }
+  .error-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 99px;
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.2);
+    color: #fbbf24;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    font-family: var(--font-display, 'Outfit', sans-serif);
+  }
+  .error-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="error-section" aria-label="Error {{ code | default('') }} – {{ title | default('Error') }}">
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-9">
+
+        <div class="error-code" aria-hidden="true">{{ code | default('!') }}</div>
+
+        <div class="error-icon-wrap" aria-hidden="true">
+          <i class="bi {{ icon | default('bi-exclamation-triangle-fill') }}"
+             style="color:#fbbf24;"></i>
+        </div>
+
+        <span class="error-badge">
+          <i class="bi {{ icon | default('bi-exclamation-triangle-fill') }}" aria-hidden="true"></i>
+          {{ title | default('Error') }}
+        </span>
+
+        <h1 class="error-title">{{ headline | default('Unexpected Error') }}</h1>
+
+        <p class="error-message">
+          {{ message | default("An unexpected error occurred. Please return to the home page or try again.") }}
+        </p>
+
+        <nav class="error-actions" aria-label="Error recovery navigation">
+          <a href="{{ url_for('main.home') }}"
+             class="btn-primary-custom"
+             aria-label="Return to OptiCrop home page">
+            <i class="bi bi-house-door me-2" aria-hidden="true"></i>Go Home
+          </a>
+          <a href="{{ url_for('main.predict') }}"
+             class="btn-secondary-custom"
+             aria-label="Go to the crop prediction form">
+            <i class="bi bi-cpu me-2" aria-hidden="true"></i>Predict Crop
+          </a>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

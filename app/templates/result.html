@@ -1,0 +1,1253 @@
+{% extends "base.html" %}
+
+{# ============================================================
+   OptiCrop – result.html
+   Flask Jinja2 Child Template  v2.0.0 (Integration Release)
+
+   Extends: base.html
+   Extra CSS:  result.css
+   Extra JS:   result.js
+   Flask var:  result_data  (dict passed from predict route)
+   ============================================================ #}
+
+{% block title %}Prediction Result – OptiCrop | AI Crop Recommendation Engine{% endblock %}
+
+{% block meta_description %}OptiCrop AI Crop Recommendation Result. Machine Learning–powered precision agriculture prediction using Random Forest, Scikit-Learn, and Python Flask. Analyze soil nitrogen, phosphorus, potassium, temperature, humidity, pH, and rainfall parameters for optimal crop selection.{% endblock %}
+
+{% block meta_keywords %}crop recommendation result, AI prediction, machine learning agriculture, random forest crop, precision farming, predictive analytics, scikit-learn Flask, soil analysis, agricultural optimization, data-driven farming{% endblock %}
+
+{% block meta_robots %}noindex, nofollow{% endblock %}
+
+{% block og_title %}OptiCrop – AI Crop Recommendation Result{% endblock %}
+{% block og_description %}Your AI-powered crop recommendation is ready. View detailed soil analysis, farming guidance, and sustainability insights.{% endblock %}
+
+{% block tw_title %}OptiCrop – AI Crop Result{% endblock %}
+{% block tw_description %}Your AI crop prediction is complete. Explore your recommendation, soil analysis, and farming guidance.{% endblock %}
+
+{% block body_page %}result{% endblock %}
+
+{# Page-specific CSS #}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 1 · RESULT HERO
+══════════════════════════════════════════════════════════ -->
+<section id="result-hero" aria-label="Prediction result hero">
+  <div class="result-hero-orb rho-1" aria-hidden="true"></div>
+  <div class="result-hero-orb rho-2" aria-hidden="true"></div>
+  <div class="result-hero-orb rho-3" aria-hidden="true"></div>
+
+  <div class="container position-relative" style="z-index:3;">
+    <div class="row align-items-center g-5">
+
+      <!-- Left text -->
+      <div class="col-lg-7">
+        <nav class="result-breadcrumb" aria-label="Breadcrumb">
+          <a href="{{ url_for('main.home') }}"><i class="bi bi-house-fill"></i> Home</a>
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          <a href="{{ url_for('main.predict') }}">Predict</a>
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          <span>Result</span>
+        </nav>
+
+        <div class="section-label" style="animation:fade-in-down 0.8s ease forwards;">
+          <i class="bi bi-patch-check-fill" aria-hidden="true"></i> AI Prediction Complete
+        </div>
+
+        <h1 class="result-hero-title" style="animation:fade-in-up 0.9s ease 0.1s both;">
+          <span style="color:#f1f5f9;">Prediction</span><br>
+          <span class="gradient-text">Completed Successfully</span>
+        </h1>
+
+        <p class="result-hero-desc" style="animation:fade-in-up 0.9s ease 0.25s both;">
+          Your soil and environmental parameters have been analyzed by the
+          <strong style="color:#f1f5f9;">Random Forest Machine Learning model</strong>.
+          The AI has identified the most suitable crop for your field conditions with
+          <strong style="color:#22c55e;">high confidence</strong> — review the full agricultural recommendation below.
+        </p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:10px;animation:fade-in-up 0.9s ease 0.4s both;">
+          <span class="result-stat-pill"><i class="bi bi-cpu-fill" style="color:#22c55e;"></i> Model: <strong>Random Forest</strong></span>
+          <span class="result-stat-pill"><i class="bi bi-lightning-charge-fill" style="color:#fbbf24;"></i> Time: <strong id="heroTimestamp">—</strong></span>
+          <span class="result-stat-pill"><i class="bi bi-shield-fill-check" style="color:#38bdf8;"></i> Status: <strong style="color:#22c55e;">✅ Success</strong></span>
+        </div>
+      </div>
+
+      <!-- Right: success burst + crop name preview -->
+      <div class="col-lg-5 text-center" style="animation:fade-in 1s ease 0.3s both;">
+        <div class="success-burst" aria-hidden="true">
+          <div class="success-burst-ring"></div>
+          <div class="success-burst-ring"></div>
+          <div class="success-burst-ring"></div>
+          <div class="success-burst-icon" id="cropEmoji">✅</div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div style="font-size:0.72rem;color:#64748b;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;">Recommended Crop</div>
+          <div id="cropName" style="font-family:'Outfit',sans-serif;font-size:2.6rem;font-weight:900;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;">—</div>
+          <div id="cropScientific" style="font-size:0.88rem;color:#64748b;font-style:italic;margin-top:4px;">—</div>
+        </div>
+
+        <div style="display:flex;justify-content:center;gap:16px;margin-top:20px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:900;color:#22c55e;" id="confPct">—%</div>
+            <div style="font-size:0.68rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Confidence</div>
+          </div>
+          <div style="width:1px;background:var(--dark-border);align-self:stretch;"></div>
+          <div style="text-align:center;">
+            <div style="font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:900;color:#38bdf8;">7</div>
+            <div style="font-size:0.68rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Parameters</div>
+          </div>
+          <div style="width:1px;background:var(--dark-border);align-self:stretch;"></div>
+          <div style="text-align:center;">
+            <div style="font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:900;color:#a78bfa;">200</div>
+            <div style="font-size:0.68rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Trees</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 2 · RECOMMENDED CROP CARD
+══════════════════════════════════════════════════════════ -->
+<section id="crop-card-section" aria-label="Recommended crop card">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-flower1-fill" aria-hidden="true"></i> AI Recommendation</span>
+      <h2 class="section-title mt-2">Your <span>Recommended Crop</span></h2>
+      <p class="section-subtitle mt-3">Based on your 7 soil &amp; climate parameters, the Machine Learning model recommends:</p>
+    </div>
+
+    <div class="crop-main-card rv-fade-up">
+
+      <!-- Banner -->
+      <div class="crop-card-banner">
+        <div style="position:relative;flex-shrink:0;">
+          <div class="crop-image-placeholder" aria-label="Crop illustration" role="img">
+            <span id="cropEmojiCard" aria-hidden="true">🌾</span>
+          </div>
+          <div class="crop-badge-overlay" aria-hidden="true">✅</div>
+        </div>
+
+        <div class="crop-banner-info">
+          <div class="crop-category-badge">
+            <i class="bi bi-tag-fill" aria-hidden="true"></i>
+            <span id="cropCategory">—</span>
+          </div>
+          <div class="crop-name-headline" id="cropNameCard">—</div>
+          <div class="crop-scientific" id="cropScientificCard">—</div>
+          <div class="crop-conf-row">
+            <div class="crop-conf-pct" id="confPctCard">—%</div>
+            <div class="crop-conf-bar-wrap">
+              <div class="crop-conf-label">Model Confidence — <span id="confQuality">—</span></div>
+              <div class="crop-conf-bar" role="progressbar" aria-label="Prediction confidence" aria-valuemin="0" aria-valuemax="100">
+                <div class="crop-conf-fill" id="confBarFill"></div>
+              </div>
+            </div>
+            <div class="crop-conf-quality" id="confQualityBadge">—</div>
+          </div>
+        </div>
+
+        <!-- Right: quick stats -->
+        <div style="display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;">
+          <div style="background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.2);border-radius:12px;padding:14px 18px;text-align:center;min-width:120px;">
+            <div style="font-size:0.65rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Pred. Time</div>
+            <div id="summaryTime" style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#22c55e;">—</div>
+          </div>
+          <div style="background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.18);border-radius:12px;padding:14px 18px;text-align:center;">
+            <div style="font-size:0.65rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Algorithm</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:0.72rem;font-weight:700;color:#38bdf8;">Random Forest</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meta strip -->
+      <div class="crop-card-meta">
+        <div class="crop-meta-item">
+          <div class="crop-meta-icon fi-green"><i class="bi bi-calendar3" aria-hidden="true"></i></div>
+          <div>
+            <div class="crop-meta-label">Growing Season</div>
+            <div class="crop-meta-val" id="metaSeason">—</div>
+          </div>
+        </div>
+        <div class="crop-meta-item">
+          <div class="crop-meta-icon fi-blue"><i class="bi bi-droplet-half" aria-hidden="true"></i></div>
+          <div>
+            <div class="crop-meta-label">Water Requirement</div>
+            <div class="crop-meta-val" id="metaWater">—</div>
+          </div>
+        </div>
+        <div class="crop-meta-item">
+          <div class="crop-meta-icon fi-amber"><i class="bi bi-thermometer" aria-hidden="true"></i></div>
+          <div>
+            <div class="crop-meta-label">Climate</div>
+            <div class="crop-meta-val" id="metaClimate">—</div>
+          </div>
+        </div>
+        <div class="crop-meta-item">
+          <div class="crop-meta-icon fi-teal"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i></div>
+          <div>
+            <div class="crop-meta-label">Expected Yield</div>
+            <div class="crop-meta-val" id="metaYield">—</div>
+          </div>
+        </div>
+        <div class="crop-meta-item">
+          <div class="crop-meta-icon fi-violet"><i class="bi bi-clock-history" aria-hidden="true"></i></div>
+          <div>
+            <div class="crop-meta-label">Prediction Time</div>
+            <div class="crop-meta-val" id="summaryTimestamp">—</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 3 · PREDICTION SUMMARY CARDS
+══════════════════════════════════════════════════════════ -->
+<section id="prediction-summary" aria-label="Prediction summary">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-clipboard2-data" aria-hidden="true"></i> Prediction Summary</span>
+      <h2 class="section-title mt-2">Analysis <span>Overview</span></h2>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-1">
+        <div class="summary-card">
+          <div class="summary-card-icon fi-green"><i class="bi bi-bullseye" aria-hidden="true"></i></div>
+          <div class="summary-card-label">Prediction Status</div>
+          <div class="summary-card-value" id="summaryStatus">—</div>
+          <div class="summary-card-sub">All parameters processed</div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-2">
+        <div class="summary-card">
+          <div class="summary-card-icon fi-blue"><i class="bi bi-percent" aria-hidden="true"></i></div>
+          <div class="summary-card-label">Confidence Score</div>
+          <div class="summary-card-value" id="summaryConf">—</div>
+          <div class="summary-card-sub">Random Forest probability</div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-3">
+        <div class="summary-card">
+          <div class="summary-card-icon fi-amber"><i class="bi bi-lightning" aria-hidden="true"></i></div>
+          <div class="summary-card-label">Inference Time</div>
+          <div class="summary-card-value" id="summaryTimeCard">—</div>
+          <div class="summary-card-sub">Server-side model inference</div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-4">
+        <div class="summary-card">
+          <div class="summary-card-icon fi-violet"><i class="bi bi-cpu" aria-hidden="true"></i></div>
+          <div class="summary-card-label">ML Model Used</div>
+          <div class="summary-card-value" style="font-size:0.9rem;" id="summaryModel">—</div>
+          <div class="summary-card-sub">Scikit-Learn · 22 classes</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 4 · AGRICULTURAL RECOMMENDATION PANEL
+══════════════════════════════════════════════════════════ -->
+<section id="agri-recommendation" aria-label="Agricultural recommendation">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-journal-richtext" aria-hidden="true"></i> Agronomic Intelligence</span>
+      <h2 class="section-title mt-2">Agricultural <span>Recommendation</span></h2>
+      <p class="section-subtitle mt-3">A comprehensive, AI-generated farming guidance panel tailored to your field conditions.</p>
+    </div>
+
+    <div class="agri-rec-card rv-fade-up">
+      <div class="row g-0">
+
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+          <div class="agri-rec-sidebar h-100">
+            <div class="agri-rec-sidebar-title">Key Parameters</div>
+
+            <div class="agri-sidebar-item">
+              <div class="agri-sidebar-icon fi-green"><i class="bi bi-calendar3" aria-hidden="true"></i></div>
+              <div>
+                <div class="agri-sidebar-label">Season</div>
+                <div class="agri-sidebar-val" id="recSeason">—</div>
+              </div>
+            </div>
+
+            <div class="agri-sidebar-item">
+              <div class="agri-sidebar-icon fi-blue"><i class="bi bi-layers" aria-hidden="true"></i></div>
+              <div>
+                <div class="agri-sidebar-label">Soil Type</div>
+                <div class="agri-sidebar-val" id="recSoil">—</div>
+              </div>
+            </div>
+
+            <div class="agri-sidebar-item">
+              <div class="agri-sidebar-icon fi-amber"><i class="bi bi-thermometer-sun" aria-hidden="true"></i></div>
+              <div>
+                <div class="agri-sidebar-label">Climate</div>
+                <div class="agri-sidebar-val" id="recClimate">—</div>
+              </div>
+            </div>
+
+            <div class="agri-sidebar-item">
+              <div class="agri-sidebar-icon fi-teal"><i class="bi bi-droplet-half" aria-hidden="true"></i></div>
+              <div>
+                <div class="agri-sidebar-label">Irrigation</div>
+                <div class="agri-sidebar-val" id="recIrrigation">—</div>
+              </div>
+            </div>
+
+            <div class="agri-sidebar-item">
+              <div class="agri-sidebar-icon fi-violet"><i class="bi bi-beaker" aria-hidden="true"></i></div>
+              <div>
+                <div class="agri-sidebar-label">Fertilizer</div>
+                <div class="agri-sidebar-val" id="recFertilizer">—</div>
+              </div>
+            </div>
+
+            <div class="agri-sidebar-item">
+              <div class="agri-sidebar-icon fi-rose"><i class="bi bi-graph-up" aria-hidden="true"></i></div>
+              <div>
+                <div class="agri-sidebar-label">Exp. Yield</div>
+                <div class="agri-sidebar-val" id="recYield">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="col-lg-9">
+          <div class="agri-rec-body">
+
+            <!-- Why this crop -->
+            <div class="agri-rec-why">
+              <div class="agri-rec-why-title">
+                <i class="bi bi-lightbulb-fill" style="color:#f59e0b;" aria-hidden="true"></i>
+                Why This Crop Was Selected
+              </div>
+              <p id="whyCropText">Loading AI recommendation rationale…</p>
+            </div>
+
+            <!-- Detail grid -->
+            <div class="agri-detail-grid">
+
+              <div class="agri-detail-item">
+                <div class="agri-detail-label"><i class="bi bi-sun" aria-hidden="true"></i> Water Requirement</div>
+                <div class="agri-detail-val" id="recWater">—</div>
+              </div>
+
+              <div class="agri-detail-item">
+                <div class="agri-detail-label"><i class="bi bi-calendar-week" aria-hidden="true"></i> Growing Season</div>
+                <div class="agri-detail-val" id="recSeasonDetail">—</div>
+              </div>
+
+              <div class="agri-detail-item">
+                <div class="agri-detail-label"><i class="bi bi-geo-alt" aria-hidden="true"></i> Soil Type</div>
+                <div class="agri-detail-val" id="recSoilDetail">—</div>
+              </div>
+
+              <div class="agri-detail-item">
+                <div class="agri-detail-label"><i class="bi bi-cloud-sun" aria-hidden="true"></i> Climate</div>
+                <div class="agri-detail-val" id="recClimateDetail">—</div>
+              </div>
+
+            </div>
+
+            <!-- Cultivation advice -->
+            <div class="mt-4 p-4 rounded-3" style="background:rgba(255,255,255,0.02);border:1px solid var(--dark-border);">
+              <h3 style="font-family:'Outfit',sans-serif;font-size:0.92rem;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+                <i class="bi bi-card-checklist" style="color:#22c55e;" aria-hidden="true"></i> General Cultivation Advice
+              </h3>
+              <p id="recAdvice" style="font-size:0.87rem;color:var(--text-secondary);line-height:1.8;margin:0;">—</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 5 · SOIL ANALYSIS SUMMARY
+══════════════════════════════════════════════════════════ -->
+<section id="soil-analysis" aria-label="Soil parameter analysis">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-bar-chart-fill" aria-hidden="true"></i> Input Analysis</span>
+      <h2 class="section-title mt-2">Soil &amp; Climate <span>Parameter Summary</span></h2>
+      <p class="section-subtitle mt-3">Visual summary of the 7 agronomic parameters used in this AI prediction.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Nitrogen -->
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-1">
+        <div class="soil-param-card">
+          <div class="soil-param-header">
+            <div class="soil-param-icon fi-green"><i class="bi bi-activity" aria-hidden="true"></i></div>
+            <div><div class="soil-param-name">Nitrogen</div><div class="soil-param-unit">ppm (mg/kg)</div></div>
+          </div>
+          <div class="soil-param-value" id="soilVal-nitrogen" style="color:#22c55e;">—</div>
+          <div class="soil-param-bar-track" role="progressbar" aria-label="Nitrogen level"><div class="soil-param-bar-fill" id="soilBar-nitrogen"></div></div>
+          <div class="soil-param-range"><span>0</span><span>140 ppm</span></div>
+          <div class="soil-param-status" id="soilStatus-nitrogen"><i class="bi bi-circle-fill"></i> —</div>
+        </div>
+      </div>
+
+      <!-- Phosphorus -->
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-2">
+        <div class="soil-param-card">
+          <div class="soil-param-header">
+            <div class="soil-param-icon fi-blue"><i class="bi bi-droplet-half" aria-hidden="true"></i></div>
+            <div><div class="soil-param-name">Phosphorus</div><div class="soil-param-unit">ppm (mg/kg)</div></div>
+          </div>
+          <div class="soil-param-value" id="soilVal-phosphorus" style="color:#38bdf8;">—</div>
+          <div class="soil-param-bar-track" role="progressbar" aria-label="Phosphorus level"><div class="soil-param-bar-fill" id="soilBar-phosphorus"></div></div>
+          <div class="soil-param-range"><span>5</span><span>145 ppm</span></div>
+          <div class="soil-param-status" id="soilStatus-phosphorus"><i class="bi bi-circle-fill"></i> —</div>
+        </div>
+      </div>
+
+      <!-- Potassium -->
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-3">
+        <div class="soil-param-card">
+          <div class="soil-param-header">
+            <div class="soil-param-icon fi-amber"><i class="bi bi-lightning" aria-hidden="true"></i></div>
+            <div><div class="soil-param-name">Potassium</div><div class="soil-param-unit">ppm (mg/kg)</div></div>
+          </div>
+          <div class="soil-param-value" id="soilVal-potassium" style="color:#fbbf24;">—</div>
+          <div class="soil-param-bar-track" role="progressbar" aria-label="Potassium level"><div class="soil-param-bar-fill" id="soilBar-potassium"></div></div>
+          <div class="soil-param-range"><span>5</span><span>205 ppm</span></div>
+          <div class="soil-param-status" id="soilStatus-potassium"><i class="bi bi-circle-fill"></i> —</div>
+        </div>
+      </div>
+
+      <!-- Temperature -->
+      <div class="col-sm-6 col-lg-3 rv-fade-up delay-4">
+        <div class="soil-param-card">
+          <div class="soil-param-header">
+            <div class="soil-param-icon fi-rose"><i class="bi bi-thermometer-half" aria-hidden="true"></i></div>
+            <div><div class="soil-param-name">Temperature</div><div class="soil-param-unit">Degrees Celsius</div></div>
+          </div>
+          <div class="soil-param-value" id="soilVal-temperature" style="color:#fb7185;">—</div>
+          <div class="soil-param-bar-track" role="progressbar" aria-label="Temperature level"><div class="soil-param-bar-fill" id="soilBar-temperature"></div></div>
+          <div class="soil-param-range"><span>8°C</span><span>44°C</span></div>
+          <div class="soil-param-status" id="soilStatus-temperature"><i class="bi bi-circle-fill"></i> —</div>
+        </div>
+      </div>
+
+      <!-- Humidity -->
+      <div class="col-sm-6 col-lg-4 rv-fade-up delay-1">
+        <div class="soil-param-card">
+          <div class="soil-param-header">
+            <div class="soil-param-icon fi-teal"><i class="bi bi-water" aria-hidden="true"></i></div>
+            <div><div class="soil-param-name">Humidity</div><div class="soil-param-unit">Relative (%)</div></div>
+          </div>
+          <div class="soil-param-value" id="soilVal-humidity" style="color:#2dd4bf;">—</div>
+          <div class="soil-param-bar-track" role="progressbar" aria-label="Humidity level"><div class="soil-param-bar-fill" id="soilBar-humidity"></div></div>
+          <div class="soil-param-range"><span>14%</span><span>100%</span></div>
+          <div class="soil-param-status" id="soilStatus-humidity"><i class="bi bi-circle-fill"></i> —</div>
+        </div>
+      </div>
+
+      <!-- pH -->
+      <div class="col-sm-6 col-lg-4 rv-fade-up delay-2">
+        <div class="soil-param-card">
+          <div class="soil-param-header">
+            <div class="soil-param-icon fi-violet"><i class="bi bi-eyedropper" aria-hidden="true"></i></div>
+            <div><div class="soil-param-name">pH Level</div><div class="soil-param-unit">Acidity / Alkalinity</div></div>
+          </div>
+          <div class="soil-param-value" id="soilVal-ph" style="color:#a78bfa;">—</div>
+          <div class="soil-param-bar-track" role="progressbar" aria-label="pH level"><div class="soil-param-bar-fill" id="soilBar-ph"></div></div>
+          <div class="soil-param-range"><span>3.5</span><span>10 pH</span></div>
+          <div class="soil-param-status" id="soilStatus-ph"><i class="bi bi-circle-fill"></i> —</div>
+        </div>
+      </div>
+
+      <!-- Rainfall -->
+      <div class="col-sm-6 col-lg-4 rv-fade-up delay-3">
+        <div class="soil-param-card">
+          <div class="soil-param-header">
+            <div class="soil-param-icon" style="background:rgba(14,165,233,0.15);border:1px solid rgba(14,165,233,0.25);color:#38bdf8;">
+              <i class="bi bi-cloud-rain" aria-hidden="true"></i>
+            </div>
+            <div><div class="soil-param-name">Rainfall</div><div class="soil-param-unit">Annual (mm)</div></div>
+          </div>
+          <div class="soil-param-value" id="soilVal-rainfall" style="color:#38bdf8;">—</div>
+          <div class="soil-param-bar-track" role="progressbar" aria-label="Rainfall level"><div class="soil-param-bar-fill" id="soilBar-rainfall"></div></div>
+          <div class="soil-param-range"><span>20 mm</span><span>300 mm</span></div>
+          <div class="soil-param-status" id="soilStatus-rainfall"><i class="bi bi-circle-fill"></i> —</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 6 · AI PREDICTION INSIGHTS
+══════════════════════════════════════════════════════════ -->
+<section id="ai-insights" aria-label="AI prediction insights">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-stars" aria-hidden="true"></i> Explainable AI</span>
+      <h2 class="section-title mt-2">How the AI <span>Reached This Decision</span></h2>
+      <p class="section-subtitle mt-3">Transparency into the Machine Learning reasoning behind this crop recommendation.</p>
+    </div>
+
+    <div class="row g-5 align-items-start">
+
+      <!-- Timeline -->
+      <div class="col-lg-7">
+        <div class="insight-timeline" aria-label="AI decision timeline">
+
+          <div class="insight-item rv-fade-left delay-1">
+            <div class="insight-dot" aria-hidden="true"></div>
+            <div class="insight-item-header">
+              <div class="insight-item-icon fi-green"><i class="bi bi-clipboard2-data" aria-hidden="true"></i></div>
+              <div class="insight-item-title">Step 1 — Input Vectorization</div>
+              <span class="insight-item-badge"><span class="step-badge" style="font-size:0.65rem;padding:3px 8px;"><i class="bi bi-check-circle-fill"></i> Complete</span></span>
+            </div>
+            <div class="insight-body">
+              Your 7 parameters (<span id="insightInputVec">N, P, K, Temp, Humidity, pH, Rainfall</span>) were
+              assembled into a <strong style="color:#f1f5f9;">feature vector</strong> and passed to the preprocessing pipeline.
+            </div>
+          </div>
+
+          <div class="insight-item rv-fade-left delay-2">
+            <div class="insight-dot" aria-hidden="true"></div>
+            <div class="insight-item-header">
+              <div class="insight-item-icon fi-blue"><i class="bi bi-sliders" aria-hidden="true"></i></div>
+              <div class="insight-item-title">Step 2 — StandardScaler Normalization</div>
+              <span class="insight-item-badge"><span class="step-badge" style="font-size:0.65rem;padding:3px 8px;"><i class="bi bi-check-circle-fill"></i> Complete</span></span>
+            </div>
+            <div class="insight-body">
+              Values were normalized using <strong style="color:#f1f5f9;">StandardScaler</strong> (μ and σ fitted on 2,200
+              training records). This ensures that high-range features like Rainfall don't dominate lower-range features like pH.
+            </div>
+          </div>
+
+          <div class="insight-item rv-fade-left delay-3">
+            <div class="insight-dot" aria-hidden="true"></div>
+            <div class="insight-item-header">
+              <div class="insight-item-icon fi-amber"><i class="bi bi-tree" aria-hidden="true"></i></div>
+              <div class="insight-item-title">Step 3 — Random Forest Ensemble Voting</div>
+              <span class="insight-item-badge"><span class="step-badge" style="font-size:0.65rem;padding:3px 8px;"><i class="bi bi-check-circle-fill"></i> Complete</span></span>
+            </div>
+            <div class="insight-body">
+              200 decision trees each independently classified the input. Each tree voted for a crop class.
+              <strong style="color:#f1f5f9;" id="insightConfVal">—</strong>% of trees voted for
+              <strong style="color:#22c55e;" id="insightCropName">—</strong>,
+              making it the majority class by a wide margin.
+            </div>
+          </div>
+
+          <div class="insight-item rv-fade-left delay-4">
+            <div class="insight-dot" aria-hidden="true"></div>
+            <div class="insight-item-header">
+              <div class="insight-item-icon fi-violet"><i class="bi bi-bar-chart-steps" aria-hidden="true"></i></div>
+              <div class="insight-item-title">Step 4 — Class Probability Aggregation</div>
+              <span class="insight-item-badge"><span class="step-badge" style="font-size:0.65rem;padding:3px 8px;"><i class="bi bi-check-circle-fill"></i> Complete</span></span>
+            </div>
+            <div class="insight-body">
+              <code style="color:#a78bfa;background:rgba(167,139,250,0.1);padding:2px 6px;border-radius:4px;">predict_proba()</code>
+              returned probabilities for all 22 crop classes.
+              <span id="insightProbaTop"><strong style="color:#22c55e;">—</strong> scored highest. The top prediction is returned to the user.</span>
+            </div>
+          </div>
+
+          <div class="insight-item rv-fade-left" style="border-color:rgba(22,163,74,0.3);">
+            <div class="insight-dot" style="border-color:#22c55e;background:rgba(22,163,74,0.2);box-shadow:0 0 14px rgba(22,163,74,0.5);" aria-hidden="true"></div>
+            <div class="insight-item-header">
+              <div class="insight-item-icon" style="background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.25);color:#22c55e;"><i class="bi bi-patch-check-fill" aria-hidden="true"></i></div>
+              <div class="insight-item-title" id="insightResultTitle" style="color:#22c55e;">Result — Recommended ✅</div>
+            </div>
+            <div class="insight-body" id="insightResultBody">
+              High nitrogen and humidity closely match the recommended crop cluster in the training data.
+              Rainfall and pH are within the optimal range for this crop.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Feature importance panel -->
+      <div class="col-lg-5">
+        <div class="summary-card" style="padding:28px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <div style="font-family:'Outfit',sans-serif;font-size:0.9rem;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:8px;">
+              <i class="bi bi-bar-chart-line" style="color:#22c55e;" aria-hidden="true"></i>
+              Feature Importance
+            </div>
+            <span class="footer-tech-pill" style="font-size:0.65rem;background:rgba(22,163,74,0.15);border-color:rgba(22,163,74,0.3);color:#22c55e;">Live</span>
+          </div>
+          <div id="featureImportanceBars" aria-label="Feature importance chart">
+            <!-- Populated by result.js from live model.feature_importances_ -->
+          </div>
+          <p style="font-size:0.72rem;color:#475569;margin-top:16px;line-height:1.6;">
+            Importances read directly from
+            <code style="color:#a78bfa;background:rgba(167,139,250,0.08);padding:1px 5px;border-radius:4px;">model.feature_importances_</code>
+            on every prediction — real trained model values.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 7 · CROP INFORMATION
+══════════════════════════════════════════════════════════ -->
+<section id="crop-info" aria-label="Crop information">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-book-fill" aria-hidden="true"></i> Crop Profile</span>
+      <h2 class="section-title mt-2">About <span id="cropInfoName">This Crop</span></h2>
+    </div>
+
+    <!-- Description -->
+    <div class="crop-desc-box rv-fade-up mb-4">
+      <div style="font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;color:var(--primary-light);margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+        <i class="bi bi-file-earmark-text" aria-hidden="true"></i> Crop Description
+      </div>
+      <p id="cropDescText">
+        <strong style="color:#f1f5f9;" id="cropDescHeadline">—</strong>
+        is a recommended crop based on your soil and environmental parameters analyzed by the
+        Random Forest Machine Learning model. Review the agronomic details and farming guidance below to maximize your yield.
+      </p>
+    </div>
+
+    <!-- Info grid — values injected dynamically by syncAllResultFields() -->
+    <div class="crop-info-grid rv-fade-up">
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-blue"><i class="bi bi-droplet-fill" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Water Requirement</div><div class="crop-info-item-val" id="infoWater">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-amber"><i class="bi bi-sun-fill" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Growing Season</div><div class="crop-info-item-val" id="infoSeason">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-green"><i class="bi bi-layers-fill" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Soil Type</div><div class="crop-info-item-val" id="infoSoil">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-teal"><i class="bi bi-thermometer-half" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Climate</div><div class="crop-info-item-val" id="infoClimate">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-rose"><i class="bi bi-scissors" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Expected Yield</div><div class="crop-info-item-val" id="infoYield">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-violet"><i class="bi bi-beaker" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Fertilizer Guide</div><div class="crop-info-item-val" id="infoFertilizer">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-green"><i class="bi bi-droplet-half" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Irrigation Method</div><div class="crop-info-item-val" id="infoIrrigation">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-amber"><i class="bi bi-cpu-fill" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">ML Confidence</div><div class="crop-info-item-val" id="infoConf">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-blue"><i class="bi bi-tag-fill" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Crop Category</div><div class="crop-info-item-val" id="infoCategory">—</div></div>
+      </div>
+
+      <div class="crop-info-item">
+        <div class="crop-info-item-icon fi-teal"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i></div>
+        <div><div class="crop-info-item-label">Inference Time</div><div class="crop-info-item-val" id="infoPredTime">—</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 8 · FARMING BEST PRACTICES
+══════════════════════════════════════════════════════════ -->
+<section id="farming-practices" aria-label="Farming best practices">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-tools" aria-hidden="true"></i> Expert Guidance</span>
+      <h2 class="section-title mt-2">Farming <span>Best Practices</span></h2>
+      <p class="section-subtitle mt-3">Professional agronomic guidance for maximizing yield and crop quality.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-1">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">🌱</span>
+          <h3 class="practice-title">Seed Selection</h3>
+          <ul class="practice-list" role="list">
+            <li>Use certified high-yielding varieties (HYV)</li>
+            <li>Prefer disease-resistant, region-adapted varieties</li>
+            <li>Treat seeds with bio-fungicide before sowing</li>
+            <li>Ensure germination rate ≥ 85% before use</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-2">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">🌍</span>
+          <h3 class="practice-title">Soil Preparation</h3>
+          <ul class="practice-list" role="list">
+            <li>Deep plough to 20–25 cm before planting</li>
+            <li>Incorporate 8–12 tonnes FYM or compost per hectare</li>
+            <li>Test soil pH and correct before sowing</li>
+            <li>Ensure good drainage and aeration</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-3">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">💧</span>
+          <h3 class="practice-title">Irrigation</h3>
+          <ul class="practice-list" role="list">
+            <li id="practiceIrrigationMain">Follow recommended irrigation method for this crop</li>
+            <li>Irrigate at critical growth stages (flowering, grain fill)</li>
+            <li>Use drip or sprinkler to improve water-use efficiency</li>
+            <li>Stop irrigation 10–14 days before harvest</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-4">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">🧪</span>
+          <h3 class="practice-title">Fertilizer Usage</h3>
+          <ul class="practice-list" role="list">
+            <li id="practiceFertMain">Apply recommended NPK doses per soil test</li>
+            <li>Split nitrogen into 3 doses for improved NUE</li>
+            <li>Apply micronutrients (Zn, B) if deficient</li>
+            <li>Avoid excessive N — promotes vegetative growth over yield</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-1">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">🌿</span>
+          <h3 class="practice-title">Weed Management</h3>
+          <ul class="practice-list" role="list">
+            <li>Weed at 20–25 and 40–45 days after sowing</li>
+            <li>Apply pre-emergence herbicide at recommended dose</li>
+            <li>Use inter-row cultivation tools</li>
+            <li>Maintain crop canopy to shade and suppress weeds</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-2">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">🐛</span>
+          <h3 class="practice-title">Pest &amp; Disease Control</h3>
+          <ul class="practice-list" role="list">
+            <li>Conduct regular scouting from early growth stage</li>
+            <li>Use pheromone traps for key pest monitoring</li>
+            <li>Apply IPM-approved pesticides at threshold levels</li>
+            <li>Release bio-control agents where available</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-3">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">🌾</span>
+          <h3 class="practice-title">Harvest Tips</h3>
+          <ul class="practice-list" role="list">
+            <li>Harvest at physiological maturity for best quality</li>
+            <li>Use appropriate machinery to reduce field losses</li>
+            <li>Harvest in dry weather to prevent post-harvest loss</li>
+            <li>Monitor grain moisture at cutting time</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-4">
+        <article class="practice-card">
+          <span class="practice-icon" aria-hidden="true">🏪</span>
+          <h3 class="practice-title">Post-harvest Storage</h3>
+          <ul class="practice-list" role="list">
+            <li>Dry produce to safe moisture level before storage</li>
+            <li>Store in hermetic bags or silos to prevent pests</li>
+            <li>Use appropriate fumigation for long-term storage</li>
+            <li>Register with nearest APMC for MSP procurement</li>
+          </ul>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 9 · SUSTAINABILITY TIPS
+══════════════════════════════════════════════════════════ -->
+<section id="sustainability" aria-label="Sustainability tips">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-leaf-fill" aria-hidden="true"></i> Eco-Conscious Farming</span>
+      <h2 class="section-title mt-2">Sustainability <span>Best Practices</span></h2>
+      <p class="section-subtitle mt-3">Responsible, data-driven precision farming that preserves soil health and conserves resources for future generations.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-4 rv-fade-up delay-1">
+        <div class="sustain-card">
+          <div class="sustain-icon" style="background:rgba(14,165,233,0.15);border:1px solid rgba(14,165,233,0.25);"><span aria-hidden="true">💧</span></div>
+          <h3 class="sustain-title">Water Conservation</h3>
+          <p class="sustain-desc">Adopt <strong style="color:#f1f5f9;">precision irrigation</strong> (drip, sprinkler, or AWD) matched to this crop's water requirement. Install soil moisture sensors for real-time scheduling to save up to 30% water without sacrificing yield.</p>
+          <span class="sustain-tag" style="background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.2);color:#38bdf8;">Water Smart</span>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 rv-fade-up delay-2">
+        <div class="sustain-card">
+          <div class="sustain-icon" style="background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.25);"><span aria-hidden="true">🪱</span></div>
+          <h3 class="sustain-title">Soil Health</h3>
+          <p class="sustain-desc">Incorporate <strong style="color:#f1f5f9;">green manure crops</strong> (Sesbania, Dhaincha, Cowpea) before planting to fix atmospheric nitrogen and improve soil organic matter. This reduces synthetic fertilizer dependency for the recommended crop.</p>
+          <span class="sustain-tag" style="background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.2);color:#22c55e;">Soil First</span>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 rv-fade-up delay-3">
+        <div class="sustain-card">
+          <div class="sustain-icon" style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);"><span aria-hidden="true">🌿</span></div>
+          <h3 class="sustain-title">Organic Farming</h3>
+          <p class="sustain-desc">Transition to <strong style="color:#f1f5f9;">integrated organic practices</strong> for higher yield with fewer inputs. Use biofertilizers (Azospirillum, PSB, Rhizobium) and vermiculture compost to reduce chemical load and improve long-term soil fertility.</p>
+          <span class="sustain-tag" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);color:#fbbf24;">Organic</span>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 rv-fade-up delay-1">
+        <div class="sustain-card">
+          <div class="sustain-icon" style="background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.25);"><span aria-hidden="true">🔄</span></div>
+          <h3 class="sustain-title">Crop Rotation</h3>
+          <p class="sustain-desc">Follow a <strong style="color:#f1f5f9;">planned crop rotation</strong> (Cereal–Legume–Oilseed) to break pest and disease cycles, replenish soil nitrogen, and prevent micronutrient depletion. Legume rotation reduces urea usage in the next season.</p>
+          <span class="sustain-tag" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);color:#a78bfa;">Rotation</span>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 rv-fade-up delay-2">
+        <div class="sustain-card">
+          <div class="sustain-icon" style="background:rgba(20,184,166,0.15);border:1px solid rgba(20,184,166,0.25);"><span aria-hidden="true">⚗️</span></div>
+          <h3 class="sustain-title">Balanced Fertilization</h3>
+          <p class="sustain-desc">Apply fertilizers based on <strong style="color:#f1f5f9;">Soil Health Card</strong> recommendations rather than blanket doses. Split nitrogen application into 3 doses to improve NUE and minimize leaching into groundwater.</p>
+          <span class="sustain-tag" style="background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.2);color:#2dd4bf;">Balanced</span>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 rv-fade-up delay-3">
+        <div class="sustain-card">
+          <div class="sustain-icon" style="background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.22);"><span aria-hidden="true">🌍</span></div>
+          <h3 class="sustain-title">Sustainable Agriculture</h3>
+          <p class="sustain-desc">Enroll in <strong style="color:#f1f5f9;">PM Krishi Sinchai Yojana</strong> and <strong style="color:#f1f5f9;">Paramparagat Krishi Vikas Yojana (PKVY)</strong> for subsidized precision irrigation and organic farming certification support.</p>
+          <span class="sustain-tag" style="background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);color:#fb7185;">Planet+</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 10 · CHARTS & ANALYTICS
+══════════════════════════════════════════════════════════ -->
+<section id="analytics-section" aria-label="Prediction analytics">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-pie-chart-fill" aria-hidden="true"></i> Visual Analytics</span>
+      <h2 class="section-title mt-2">Prediction <span>Insights</span></h2>
+      <p class="section-subtitle mt-3">Data visualizations providing deeper understanding of the AI recommendation.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Confidence Gauge -->
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-1">
+        <div class="chart-placeholder-card">
+          <div class="chart-placeholder-header">
+            <div class="chart-placeholder-title"><i class="bi bi-speedometer2" aria-hidden="true"></i> Confidence Gauge</div>
+            <span class="chart-placeholder-badge">Live</span>
+          </div>
+          <div class="conf-gauge-wrap" aria-label="Confidence gauge showing prediction confidence">
+            <div>
+              <div class="conf-gauge" aria-hidden="true">
+                <div class="conf-gauge-bg"></div>
+                <div class="conf-gauge-fill" id="gaugeFill"></div>
+                <div class="conf-gauge-val" id="gaugeVal">—%</div>
+              </div>
+              <div class="conf-gauge-label">Model Confidence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar Chart -->
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-2">
+        <div class="chart-placeholder-card">
+          <div class="chart-placeholder-header">
+            <div class="chart-placeholder-title"><i class="bi bi-diagram-3" aria-hidden="true"></i> Parameter Radar</div>
+            <span class="chart-placeholder-badge">Canvas</span>
+          </div>
+          <div class="radar-placeholder" aria-label="Radar chart showing soil parameter distribution">
+            <div class="radar-canvas-wrap">
+              <canvas id="radarCanvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar Chart — Environmental -->
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-3">
+        <div class="chart-placeholder-card">
+          <div class="chart-placeholder-header">
+            <div class="chart-placeholder-title"><i class="bi bi-bar-chart-fill" aria-hidden="true"></i> Input Parameters</div>
+            <span class="chart-placeholder-badge">Normalized</span>
+          </div>
+          <div class="bar-chart-placeholder" id="envBarChart" style="min-height:160px;align-items:flex-end;" aria-label="Bar chart of normalized input parameters">
+            <!-- Populated by result.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Probability Distribution -->
+      <div class="col-md-6 col-lg-3 rv-fade-up delay-4">
+        <div class="chart-placeholder-card">
+          <div class="chart-placeholder-header">
+            <div class="chart-placeholder-title"><i class="bi bi-list-ol" aria-hidden="true"></i> Top Predictions</div>
+            <span class="chart-placeholder-badge">Top 5</span>
+          </div>
+          <div class="prob-bars" id="probabilityBars" aria-label="Top 5 crop probability predictions">
+            <!-- Populated by result.js -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Live data confirmation badge -->
+    <div class="mt-4 p-4 rounded-3 d-flex align-items-start gap-3" style="background:rgba(22,163,74,0.05);border:1px solid rgba(22,163,74,0.2);">
+      <i class="bi bi-check-circle-fill" style="color:#22c55e;font-size:1.2rem;margin-top:2px;flex-shrink:0;" aria-hidden="true"></i>
+      <div>
+        <div style="font-family:'Outfit',sans-serif;font-size:0.86rem;font-weight:700;color:#22c55e;margin-bottom:4px;">Live ML Data — Fully Integrated</div>
+        <p style="font-size:0.8rem;color:#64748b;margin:0;line-height:1.7;">
+          All charts and analytics above use real data from the Random Forest model.
+          Confidence gauge, radar chart, bar chart, and probability bars are all driven by
+          <code style="color:#22c55e;background:rgba(22,163,74,0.08);padding:1px 5px;border-radius:4px;">model.predict_proba()</code>
+          and <code style="color:#a78bfa;background:rgba(167,139,250,0.08);padding:1px 5px;border-radius:4px;">model.feature_importances_</code> — no placeholder data.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 11 · ACTIONS
+══════════════════════════════════════════════════════════ -->
+<section id="result-actions" aria-label="Actions panel">
+  <div class="container">
+    <div class="actions-inner rv-fade-up">
+      <span style="font-size:2rem;display:block;margin-bottom:12px;" aria-hidden="true">🚀</span>
+      <h2 class="actions-title">What Would You Like To Do Next?</h2>
+      <p class="actions-sub">Continue your precision farming journey with another prediction, or explore more insights.</p>
+      <div class="action-btn-grid" role="group" aria-label="Action buttons">
+        <a href="{{ url_for('main.predict') }}" class="btn-action-primary" id="newPredictionBtn">
+          <i class="bi bi-arrow-repeat" aria-hidden="true"></i> Predict Another Crop
+        </a>
+        <a href="{{ url_for('main.predict') }}" class="btn-action-outline" id="modifyInputsBtn">
+          <i class="bi bi-pencil-square" aria-hidden="true"></i> Modify Inputs
+        </a>
+        <button type="button" class="btn-action-ghost" id="printReportBtn" aria-label="Download prediction report" onclick="window.print()">
+          <i class="bi bi-printer" aria-hidden="true"></i> Print / Download Report
+        </button>
+        <a href="{{ url_for('main.home') }}" class="btn-action-outline">
+          <i class="bi bi-house" aria-hidden="true"></i> Go to Home
+        </a>
+        <a href="{{ url_for('main.about') }}" class="btn-action-ghost">
+          <i class="bi bi-book" aria-hidden="true"></i> Learn More
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 12 · FAQ
+══════════════════════════════════════════════════════════ -->
+<section id="result-faq" aria-label="Frequently asked questions">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-question-circle-fill" aria-hidden="true"></i> FAQ</span>
+      <h2 class="section-title mt-2">Result <span>FAQs</span></h2>
+      <p class="section-subtitle mt-3">Common questions about your prediction result.</p>
+    </div>
+
+    <div class="predict-faq-wrap" id="resultFaqAccordion" role="list" style="max-width:780px;margin:0 auto;">
+
+      <div class="rfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="rfaq-button accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#rfaq1" aria-expanded="true" aria-controls="rfaq1">
+            <div class="rfaq-icon" aria-hidden="true"><i class="bi bi-lightbulb"></i></div>
+            Why was this specific crop selected?
+          </button>
+        </h3>
+        <div id="rfaq1" class="accordion-collapse collapse show" data-bs-parent="#resultFaqAccordion">
+          <div class="rfaq-body" id="faqWhyBody">
+            The Random Forest model found that your soil and climate profile most closely matches the
+            <strong style="color:#f1f5f9;" id="faqCropCluster">—</strong> cluster within its training data.
+            The model evaluated 200 decision trees and
+            <strong id="faqConfVal">—</strong>% voted for <strong id="faqCropName">—</strong>.
+            Review the agronomic recommendation panel above for the full rationale.
+          </div>
+        </div>
+      </div>
+
+      <div class="rfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="rfaq-button accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rfaq2" aria-expanded="false" aria-controls="rfaq2">
+            <div class="rfaq-icon" aria-hidden="true"><i class="bi bi-arrow-repeat"></i></div>
+            Can the prediction change with different inputs?
+          </button>
+        </h3>
+        <div id="rfaq2" class="accordion-collapse collapse" data-bs-parent="#resultFaqAccordion">
+          <div class="rfaq-body">
+            Yes. The prediction is entirely determined by your 7 input values. Even a small change in pH (e.g. from
+            6.5 to 8.5) or a significant drop in rainfall could shift the recommendation to a different crop.
+            Use the <strong style="color:#f1f5f9;">"Modify Inputs"</strong> button to adjust parameters and
+            explore alternative crop recommendations.
+          </div>
+        </div>
+      </div>
+
+      <div class="rfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="rfaq-button accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rfaq3" aria-expanded="false" aria-controls="rfaq3">
+            <div class="rfaq-icon" aria-hidden="true"><i class="bi bi-bar-chart"></i></div>
+            How accurate is the confidence score shown?
+          </button>
+        </h3>
+        <div id="rfaq3" class="accordion-collapse collapse" data-bs-parent="#resultFaqAccordion">
+          <div class="rfaq-body">
+            The confidence score (<strong id="faqConfDisp">—</strong>%) represents the <strong style="color:#f1f5f9;">percentage of decision trees</strong>
+            in the 200-tree Random Forest that voted for the recommended crop. It does not account for real-world growing conditions,
+            market prices, or regional regulations. Treat it as a <em>technical confidence</em> in the
+            model's prediction — real agricultural decisions should also consider local agronomist advice.
+          </div>
+        </div>
+      </div>
+
+      <div class="rfaq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="rfaq-button accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rfaq4" aria-expanded="false" aria-controls="rfaq4">
+            <div class="rfaq-icon" aria-hidden="true"><i class="bi bi-cloud-drizzle"></i></div>
+            Can weather conditions affect the result?
+          </button>
+        </h3>
+        <div id="rfaq4" class="accordion-collapse collapse" data-bs-parent="#resultFaqAccordion">
+          <div class="rfaq-body">
+            Absolutely. Temperature, humidity, and rainfall are three of the seven input features.
+            If you entered annual averages but the current season is experiencing a drought or heat wave,
+            the real conditions may deviate significantly from the values you entered. Always use
+            <strong style="color:#f1f5f9;">measured or recent historical data</strong> for the most relevant predictions.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+{# Page-specific JS — pass result_data from Flask as RESULT global #}
+{% block extra_js %}
+{% if result_data %}
+<script>
+  // Injected by Flask: result_data dict → JS RESULT global
+  const RESULT = {{ result_data | tojson }};
+</script>
+{% endif %}
+<script src="{{ url_for('static', filename='js/result.js') }}"></script>
+<!-- Sync ALL duplicate DOM IDs from RESULT — runs after result.js -->
+<script>
+(function syncAllResultFields(){
+  const R = typeof RESULT !== 'undefined' ? RESULT : null;
+  if (!R) return;
+
+  const setTxt = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val !== undefined && val !== null) el.textContent = val;
+  };
+
+  // ── Hero + crop card ─────────────────────────────────────────────────────
+  setTxt('cropEmojiCard',     R.emoji);
+  setTxt('cropNameCard',      R.crop);
+  setTxt('cropScientificCard',R.scientific);
+  setTxt('confPctCard',       R.confidence + '%');
+  setTxt('cropInfoName',      R.crop);
+
+  // ── Confidence quality badge ──────────────────────────────────────────────
+  const q = R.confidence >= 90 ? 'Very High' : R.confidence >= 75 ? 'High' : 'Moderate';
+  setTxt('confQuality',       q);
+  setTxt('confQualityBadge',  q + ' Confidence');
+
+  // ── Meta strip (crop card footer) ─────────────────────────────────────────
+  setTxt('metaSeason',        R.season);
+  setTxt('metaWater',         R.water_req);
+  setTxt('metaClimate',       R.climate);
+  setTxt('metaYield',         R.yield_exp);
+  setTxt('summaryTimestamp',  R.pred_time_ms + ' ms');
+  setTxt('summaryTime',       R.pred_time_ms + ' ms');
+
+  // ── Summary cards ─────────────────────────────────────────────────────────
+  setTxt('summaryStatus',     '✅ Success');
+  setTxt('summaryConf',       R.confidence + '%');
+  setTxt('summaryTimeCard',   R.pred_time_ms + ' ms');
+  setTxt('summaryModel',      R.model || 'Random Forest');
+
+  // ── Agri recommendation sidebar ───────────────────────────────────────────
+  setTxt('recSeason',         R.season);
+  setTxt('recSoil',           R.soil_type);
+  setTxt('recClimate',        R.climate);
+  setTxt('recIrrigation',     R.irrigation);
+  setTxt('recFertilizer',     R.fertilizer);
+  setTxt('recYield',          R.yield_exp);
+
+  // ── Agri recommendation body ──────────────────────────────────────────────
+  setTxt('whyCropText',       R.why);
+  setTxt('recWater',          R.water_req);
+  setTxt('recSeasonDetail',   R.season);
+  setTxt('recSoilDetail',     R.soil_type);
+  setTxt('recClimateDetail',  R.climate);
+  setTxt('recAdvice',         R.advice);
+
+  // ── AI Insights timeline — update dynamic values ──────────────────────────
+  setTxt('insightConfVal',   R.confidence + '%');
+  setTxt('insightCropName',  R.crop);
+  setTxt('insightResultTitle', 'Result — ' + R.crop + ' Recommended ✅');
+  setTxt('insightResultBody',
+    R.why || (R.crop + ' is the best match for your field conditions.'));
+
+  // ── Step 1 input vector ───────────────────────────────────────────────────
+  if (R.inputs) {
+    const inp = R.inputs;
+    const vec = 'N=' + (inp.nitrogen||'?') + ', P=' + (inp.phosphorus||'?') +
+      ', K=' + (inp.potassium||'?') + ', Temp=' + (inp.temperature||'?') +
+      '°C, H=' + (inp.humidity||'?') + '%, pH=' + (inp.ph||'?') +
+      ', Rain=' + (inp.rainfall||'?') + 'mm';
+    setTxt('insightInputVec', vec);
+  }
+
+  // ── Step 4 probability top result ────────────────────────────────────────
+  const probs = R.probabilities || [];
+  if (probs.length > 0) {
+    const top1 = probs[0];
+    const top2 = probs[1] ? ', followed by ' + probs[1].crop + ' (' + probs[1].pct + '%)' : '';
+    const probaEl = document.getElementById('insightProbaTop');
+    if (probaEl) probaEl.innerHTML =
+      '<strong style="color:#22c55e;">' + top1.crop + '</strong> scored highest at ' +
+      top1.pct + '%' + top2 + '. The top prediction is returned to the user.';
+  }
+
+  // ── Crop info grid (Section 7) ────────────────────────────────────────────
+  setTxt('infoWater',      R.water_req);
+  setTxt('infoSeason',     R.season);
+  setTxt('infoSoil',       R.soil_type);
+  setTxt('infoClimate',    R.climate);
+  setTxt('infoYield',      R.yield_exp);
+  setTxt('infoFertilizer', R.fertilizer);
+  setTxt('infoIrrigation', R.irrigation);
+  setTxt('infoConf',       R.confidence + '%');
+  setTxt('infoCategory',   R.category);
+  setTxt('infoPredTime',   R.pred_time_ms + ' ms');
+
+  // ── Crop description (Section 7) ─────────────────────────────────────────
+  setTxt('cropDescHeadline', R.crop + ' (' + (R.scientific || '') + ')');
+  setTxt('cropInfoName',     R.crop);
+
+  // ── Farming practices — irrigation & fertilizer tips ─────────────────────
+  setTxt('practiceIrrigationMain', R.irrigation || 'Follow recommended irrigation for this crop');
+  setTxt('practiceFertMain',       R.fertilizer  || 'Apply recommended NPK per soil test');
+
+  // ── FAQ dynamic values ────────────────────────────────────────────────────
+  setTxt('faqCropCluster', R.crop);
+  setTxt('faqConfVal',     R.confidence);
+  setTxt('faqCropName',    R.crop);
+  setTxt('faqConfDisp',    R.confidence);
+
+  // ── Hero timestamp pill ───────────────────────────────────────────────────
+  setTxt('heroTimestamp', R.pred_time_ms + ' ms');
+
+})();
+</script>
+{% endblock %}

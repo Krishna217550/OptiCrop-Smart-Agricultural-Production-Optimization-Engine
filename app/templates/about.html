@@ -1,0 +1,1858 @@
+{% extends "base.html" %}
+
+{# ============================================================
+OptiCrop – about.html
+Flask Jinja2 Child Template v2.0.0 (Integration Release)
+
+Extends: base.html
+Extra CSS: about.css
+Extra JS: about.js
+============================================================ #}
+
+{% block title %}About OptiCrop – AI Agricultural Intelligence Platform | SmartBridge Capstone{% endblock %}
+
+{% block meta_description %}Discover OptiCrop, an AI-powered crop recommendation engine built with Python, Flask,
+Scikit-Learn, and Machine Learning. Learn about our 99.5% accurate Random Forest model, 9-stage ML workflow, system
+architecture, and real-world agricultural applications.{% endblock %}
+
+{% block meta_keywords %}about opticrop, opticrop project, machine learning agriculture, Flask crop prediction, Random
+Forest agriculture, SmartBridge capstone project, AI farming, precision agriculture ML, agricultural data science{%
+endblock %}
+
+{% block og_title %}About OptiCrop – SmartBridge AI/ML Capstone Project{% endblock %}
+{% block og_description %}The intelligence behind OptiCrop: a comprehensive ML pipeline with 5 algorithms, 99.5%
+accuracy, and real-world precision farming applications.{% endblock %}
+
+{% block tw_title %}About OptiCrop – AI Agriculture Intelligence{% endblock %}
+{% block tw_description %}Learn about OptiCrop's ML pipeline, algorithms, architecture, and mission to transform
+precision farming.{% endblock %}
+
+{% block body_page %}about{% endblock %}
+
+{# Page-specific CSS #}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 1: HERO BANNER
+══════════════════════════════════════════════════════════ -->
+<section id="about-hero" aria-label="About page hero banner">
+
+  <!-- Floating orbs -->
+  <div class="about-orb about-orb-1" aria-hidden="true"></div>
+  <div class="about-orb about-orb-2" aria-hidden="true"></div>
+
+  <div class="container position-relative" style="z-index:3;">
+    <div class="row align-items-center g-5">
+
+      <!-- Left: Text -->
+      <div class="col-lg-6">
+
+        <!-- Breadcrumb -->
+        <nav class="about-breadcrumb" aria-label="Breadcrumb">
+          <a href="{{ url_for('main.home') }}"><i class="bi bi-house-fill" aria-hidden="true"></i> Home</a>
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          <span>About OptiCrop</span>
+        </nav>
+
+        <!-- Label -->
+        <div class="section-label" style="animation:fade-in-down 0.8s ease forwards;">
+          <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+          About The Project
+        </div>
+
+        <!-- Headline -->
+        <h1 class="about-hero-title" style="animation:fade-in-up 0.9s ease 0.1s forwards;opacity:0;">
+          <span style="color:#f1f5f9;">The Intelligence</span><br>
+          <span class="gradient-text">Behind the Harvest</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="about-hero-subtitle" style="animation:fade-in-up 0.9s ease 0.2s forwards;opacity:0;">
+          AI-Powered Crop Recommendation for Precision Agriculture
+        </p>
+
+        <!-- Description -->
+        <p class="about-hero-desc" style="animation:fade-in-up 0.9s ease 0.3s forwards;opacity:0;">
+          OptiCrop is a SmartBridge AI/ML capstone project that applies <strong style="color:#f1f5f9;">Machine
+            Learning</strong>
+          to solve one of agriculture's most critical challenges — choosing the right crop for the right soil
+          at the right time. Built with <strong style="color:#f1f5f9;">Python, Flask, and Scikit-Learn</strong>, it
+          delivers
+          precision farming intelligence to farmers, researchers, and agribusinesses.
+        </p>
+
+        <!-- CTA -->
+        <div style="display:flex;flex-wrap:wrap;gap:14px;animation:fade-in-up 0.9s ease 0.4s forwards;opacity:0;">
+          <a href="#project-overview" class="btn-primary-custom" id="hero-explore-btn">
+            <i class="bi bi-compass-fill" aria-hidden="true"></i> Explore Project
+          </a>
+          <a href="#about-cta" class="btn-outline-custom">
+            <i class="bi bi-lightning-charge" aria-hidden="true"></i> Try Prediction
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right: Info Card Visual -->
+      <div class="col-lg-6" style="animation:fade-in 1.1s ease 0.3s forwards;opacity:0;">
+        <div class="about-hero-visual">
+          <div class="hero-info-card">
+
+            <div class="hero-info-row">
+              <div class="hero-info-icon hii-green"><i class="bi bi-cpu-fill" aria-hidden="true"></i></div>
+              <div>
+                <div class="hero-info-label">Project Type</div>
+                <div class="hero-info-value">Enterprise ML + Flask Web Application</div>
+              </div>
+            </div>
+
+            <div class="hero-info-row">
+              <div class="hero-info-icon hii-blue"><i class="bi bi-diagram-3-fill" aria-hidden="true"></i></div>
+              <div>
+                <div class="hero-info-label">ML Algorithms</div>
+                <div class="hero-info-value">Random Forest · Decision Tree · KNN · LR</div>
+              </div>
+            </div>
+
+            <div class="hero-info-row">
+              <div class="hero-info-icon hii-amber"><i class="bi bi-bullseye" aria-hidden="true"></i></div>
+              <div>
+                <div class="hero-info-label">Best Accuracy</div>
+                <div class="hero-info-value">99.5% — Random Forest Classifier</div>
+              </div>
+            </div>
+
+            <div class="hero-info-row">
+              <div class="hero-info-icon hii-violet"><i class="bi bi-layers-fill" aria-hidden="true"></i></div>
+              <div>
+                <div class="hero-info-label">Tech Stack</div>
+                <div class="hero-info-value">Python · Flask · Scikit-Learn · Bootstrap 5</div>
+              </div>
+            </div>
+
+            <div class="hero-info-row">
+              <div class="hero-info-icon hii-teal"><i class="bi bi-award-fill" aria-hidden="true"></i></div>
+              <div>
+                <div class="hero-info-label">Programme</div>
+                <div class="hero-info-value">SmartBridge AI/ML Capstone Project 2026</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 2: PROJECT OVERVIEW
+══════════════════════════════════════════════════════════ -->
+<section id="project-overview" class="about-section-pad" aria-label="Project overview">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-book-fill" aria-hidden="true"></i> Project Overview</span>
+      <h2 class="section-title mt-2">What is <span>OptiCrop?</span></h2>
+      <p class="section-subtitle mt-3">A data-driven, AI-powered solution reimagining how farmers, researchers, and
+        agribusinesses make crop decisions.</p>
+    </div>
+
+    <div class="row g-4 align-items-stretch">
+
+      <div class="col-lg-8 fade-in-left">
+        <div class="overview-highlight h-100">
+          <p class="overview-lead">
+            <strong>OptiCrop</strong> is an intelligent crop recommendation engine that leverages
+            <strong>Machine Learning</strong> and <strong>agricultural data science</strong> to recommend
+            the most suitable crop based on real-world soil and climate parameters.
+          </p>
+          <p class="overview-lead mt-3">
+            Farmers traditionally rely on experience, intuition, or manual advisory services — an approach
+            that is slow, inconsistent, and error-prone. OptiCrop transforms this process into a
+            <strong>data-driven, instant, and accurate</strong> prediction experience powered by an
+            ensemble of <strong>5 validated ML algorithms</strong>.
+          </p>
+          <p class="overview-lead mt-3">
+            The system accepts <strong>7 agronomic parameters</strong> — Nitrogen (N), Phosphorus (P),
+            Potassium (K), Temperature, Humidity, pH, and Rainfall — and returns the optimal crop
+            recommendation with a <strong>99.5% accuracy</strong> confidence backed by Random Forest.
+          </p>
+          <div class="mt-4 d-flex flex-wrap" role="list" aria-label="Project highlights">
+            <span class="stat-pill" role="listitem"><i class="bi bi-check-circle-fill"></i> 2200+ Training
+              Records</span>
+            <span class="stat-pill" role="listitem"><i class="bi bi-check-circle-fill"></i> 22 Crop Categories</span>
+            <span class="stat-pill" role="listitem"><i class="bi bi-check-circle-fill"></i> 5 ML Algorithms</span>
+            <span class="stat-pill" role="listitem"><i class="bi bi-check-circle-fill"></i> 99.5% Accuracy</span>
+            <span class="stat-pill" role="listitem"><i class="bi bi-check-circle-fill"></i> 7 Input Parameters</span>
+            <span class="stat-pill" role="listitem"><i class="bi bi-check-circle-fill"></i> Flask REST API</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 fade-in-right">
+        <div class="row g-3 h-100">
+          <div class="col-12">
+            <div class="info-card">
+              <div class="info-card-icon fi-green"><i class="bi bi-question-circle-fill"></i></div>
+              <h3 class="info-card-title">What Problem Does It Solve?</h3>
+              <p class="info-card-desc">Eliminates guesswork in crop selection by providing AI-driven recommendations
+                based on quantified soil and climate data.</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="info-card">
+              <div class="info-card-icon fi-blue"><i class="bi bi-people-fill"></i></div>
+              <h3 class="info-card-title">Who Can Use It?</h3>
+              <p class="info-card-desc">Farmers, agricultural researchers, agribusiness analysts, government planners,
+                and agriculture students across India and globally.</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="info-card">
+              <div class="info-card-icon fi-amber"><i class="bi bi-graph-up-arrow"></i></div>
+              <h3 class="info-card-title">What's the Business Value?</h3>
+              <p class="info-card-desc">Reduces crop failure risk, increases yield per hectare, optimizes resource
+                utilization, and drives sustainable agricultural practices.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 3: PROBLEM STATEMENT
+══════════════════════════════════════════════════════════ -->
+<section id="problem-statement" class="about-section-pad" aria-label="Problem statement">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> Problem
+        Statement</span>
+      <h2 class="section-title mt-2">The Agricultural <span>Challenges</span></h2>
+      <p class="section-subtitle mt-3">Modern agriculture faces complex, interconnected challenges that cost billions in
+        lost productivity annually.</p>
+    </div>
+
+    <div class="row g-4 align-items-start">
+
+      <div class="col-lg-8">
+        <div class="row g-3">
+
+          <div class="col-md-6 fade-in-up delay-1">
+            <article class="problem-card">
+              <span class="problem-icon" aria-hidden="true">🌾</span>
+              <h3 class="problem-title">Incorrect Crop Selection</h3>
+              <p class="problem-desc">Farmers often choose crops based on tradition or intuition rather than soil
+                science, leading to mismatch between crop requirements and actual soil conditions.</p>
+            </article>
+          </div>
+
+          <div class="col-md-6 fade-in-up delay-2">
+            <article class="problem-card">
+              <span class="problem-icon" aria-hidden="true">📉</span>
+              <h3 class="problem-title">Low Agricultural Productivity</h3>
+              <p class="problem-desc">Without data-driven guidance, millions of small-scale farmers in India and Asia
+                produce 30–50% below their potential yield due to poor crop-soil alignment.</p>
+            </article>
+          </div>
+
+          <div class="col-md-6 fade-in-up delay-3">
+            <article class="problem-card">
+              <span class="problem-icon" aria-hidden="true">💧</span>
+              <h3 class="problem-title">Resource Wastage</h3>
+              <p class="problem-desc">Fertilizer, water, and pesticide overuse caused by unsuitable crop choices leads
+                to enormous resource wastage and soil degradation over time.</p>
+            </article>
+          </div>
+
+          <div class="col-md-6 fade-in-up delay-4">
+            <article class="problem-card">
+              <span class="problem-icon" aria-hidden="true">🌡️</span>
+              <h3 class="problem-title">Climate Uncertainty</h3>
+              <p class="problem-desc">Erratic rainfall, temperature fluctuations, and changing weather patterns make
+                traditional crop selection approaches increasingly unreliable and risky.</p>
+            </article>
+          </div>
+
+          <div class="col-md-6 fade-in-up delay-2">
+            <article class="problem-card">
+              <span class="problem-icon" aria-hidden="true">🧑‍🌾</span>
+              <h3 class="problem-title">Manual Decision Making</h3>
+              <p class="problem-desc">Advisory services are costly, geographically inaccessible to rural farmers, and
+                often inconsistent — leaving critical decisions to guesswork.</p>
+            </article>
+          </div>
+
+          <div class="col-md-6 fade-in-up delay-3">
+            <article class="problem-card">
+              <span class="problem-icon" aria-hidden="true">💰</span>
+              <h3 class="problem-title">Economic Losses</h3>
+              <p class="problem-desc">Crop failure due to poor selection results in severe economic losses for farming
+                communities, threatening food security and rural livelihoods.</p>
+            </article>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-4 fade-in-right">
+        <div class="problem-stat-box">
+          <div style="font-size:3rem;margin-bottom:8px;">⚠️</div>
+          <div class="problem-stat-num">80%</div>
+          <p style="font-size:0.85rem;color:#94a3b8;margin-bottom:24px;">of small-scale farmers lack access to precision
+            agricultural advisory services</p>
+
+          <div class="problem-stat-num" style="font-size:2.2rem;">₹1.5T</div>
+          <p style="font-size:0.85rem;color:#94a3b8;margin-bottom:24px;">estimated annual loss in India from preventable
+            crop failures</p>
+
+          <div class="problem-stat-num" style="font-size:2.2rem;">40%</div>
+          <p style="font-size:0.85rem;color:#94a3b8;margin-bottom:0;">average yield improvement potential with
+            data-driven precision farming</p>
+        </div>
+
+        <div class="mt-3 p-3 rounded-3" style="background:rgba(22,163,74,0.06);border:1px solid rgba(22,163,74,0.18);">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-lightbulb-fill" style="color:#22c55e;" aria-hidden="true"></i>
+            <strong style="font-family:'Outfit',sans-serif;font-size:0.88rem;">OptiCrop's Answer</strong>
+          </div>
+          <p style="font-size:0.8rem;color:#94a3b8;margin:0;line-height:1.7;">
+            A free, accessible, instant AI-driven crop recommendation engine that any farmer can use from any device —
+            no agronomist required.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 4: SOLUTION OVERVIEW
+══════════════════════════════════════════════════════════ -->
+<section id="solution-overview" class="about-section-pad" aria-label="Solution overview">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-lightbulb-fill" aria-hidden="true"></i> Our Solution</span>
+      <h2 class="section-title mt-2">How OptiCrop <span>Solves It</span></h2>
+      <p class="section-subtitle mt-3">A 5-stage intelligent pipeline transforms raw soil data into actionable,
+        AI-validated crop recommendations.</p>
+    </div>
+
+    <div class="row g-5 align-items-center">
+
+      <!-- Flow Diagram -->
+      <div class="col-lg-5 fade-in-left">
+        <div class="solution-flow" role="list" aria-label="OptiCrop solution flow">
+
+          <div class="flow-step" role="listitem">
+            <div class="flow-step-line">
+              <div class="flow-circle" aria-hidden="true"><i class="bi bi-clipboard2-data-fill"></i></div>
+              <div class="flow-connector" aria-hidden="true"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-step-num">Step 01</div>
+              <div class="flow-step-title">Input Parameters</div>
+              <p class="flow-step-desc">Farmer provides N, P, K, temperature, humidity, pH, and rainfall values through
+                the web interface.</p>
+            </div>
+          </div>
+
+          <div class="flow-step" role="listitem">
+            <div class="flow-step-line">
+              <div class="flow-circle" style="background:linear-gradient(135deg,#0ea5e9,#0d9488);" aria-hidden="true"><i
+                  class="bi bi-gear-fill"></i></div>
+              <div class="flow-connector" aria-hidden="true"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-step-num">Step 02</div>
+              <div class="flow-step-title">Data Preprocessing</div>
+              <p class="flow-step-desc">StandardScaler normalization and feature engineering transform raw inputs into
+                model-ready format.</p>
+            </div>
+          </div>
+
+          <div class="flow-step" role="listitem">
+            <div class="flow-step-line">
+              <div class="flow-circle" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);" aria-hidden="true"><i
+                  class="bi bi-robot"></i></div>
+              <div class="flow-connector" aria-hidden="true"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-step-num">Step 03</div>
+              <div class="flow-step-title">Machine Learning</div>
+              <p class="flow-step-desc">Random Forest ensemble classifier analyzes preprocessed features and generates
+                22-class probability distributions.</p>
+            </div>
+          </div>
+
+          <div class="flow-step" role="listitem">
+            <div class="flow-step-line">
+              <div class="flow-circle" style="background:linear-gradient(135deg,#f59e0b,#d97706);" aria-hidden="true"><i
+                  class="bi bi-bar-chart-fill"></i></div>
+              <div class="flow-connector" aria-hidden="true"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-step-num">Step 04</div>
+              <div class="flow-step-title">Prediction Output</div>
+              <p class="flow-step-desc">The system selects the highest-confidence crop class and computes the prediction
+                confidence score.</p>
+            </div>
+          </div>
+
+          <div class="flow-step" role="listitem">
+            <div class="flow-step-line">
+              <div class="flow-circle" style="background:linear-gradient(135deg,#22c55e,#16a34a);" aria-hidden="true"><i
+                  class="bi bi-patch-check-fill"></i></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-step-num">Step 05</div>
+              <div class="flow-step-title">Smart Recommendation</div>
+              <p class="flow-step-desc">Farmer receives the recommended crop with AI-generated confidence score and
+                agronomic insights.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Cards -->
+      <div class="col-lg-7 fade-in-right">
+        <div class="mb-3">
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:800;font-size:1.3rem;color:#f1f5f9;margin-bottom:6px;">
+            Core Solution Benefits</h3>
+          <p style="font-size:0.88rem;color:#64748b;margin-bottom:20px;">Each stage of the pipeline delivers measurable
+            value to the end user.</p>
+        </div>
+
+        <div class="solution-benefit-card">
+          <div class="sbc-icon"><i class="bi bi-lightning-charge-fill" style="color:#22c55e;"></i></div>
+          <div>
+            <div class="sbc-title">Instant Results in Under 50ms</div>
+            <div class="sbc-desc">Pre-trained pickle-serialized models serve predictions via Flask API with near-zero
+              latency, making real-time decisions feasible for farmers in the field.</div>
+          </div>
+        </div>
+
+        <div class="solution-benefit-card">
+          <div class="sbc-icon"><i class="bi bi-shield-check-fill" style="color:#0ea5e9;"></i></div>
+          <div>
+            <div class="sbc-title">Scientifically Validated Predictions</div>
+            <div class="sbc-desc">Every prediction is backed by cross-validated ML models trained on 2,200 agronomic
+              records with 10-fold stratified cross-validation ensuring statistical robustness.</div>
+          </div>
+        </div>
+
+        <div class="solution-benefit-card">
+          <div class="sbc-icon"><i class="bi bi-globe-asia-australia" style="color:#f59e0b;"></i></div>
+          <div>
+            <div class="sbc-title">Universally Accessible Platform</div>
+            <div class="sbc-desc">Fully responsive Bootstrap 5 interface works on any device — from modern desktops to
+              low-end mobile phones — making precision farming accessible to all.</div>
+          </div>
+        </div>
+
+        <div class="solution-benefit-card">
+          <div class="sbc-icon"><i class="bi bi-diagram-3-fill" style="color:#a78bfa;"></i></div>
+          <div>
+            <div class="sbc-title">Ensemble ML for Superior Accuracy</div>
+            <div class="sbc-desc">Five algorithms (Random Forest, Decision Tree, KNN, SVM, Logistic Regression) are
+              evaluated and compared, with the best model selected for production deployment.</div>
+          </div>
+        </div>
+
+        <div class="solution-benefit-card">
+          <div class="sbc-icon"><i class="bi bi-leaf-fill" style="color:#2dd4bf;"></i></div>
+          <div>
+            <div class="sbc-title">Driving Sustainable Agriculture</div>
+            <div class="sbc-desc">By matching crops to soil conditions, OptiCrop reduces fertilizer overuse, water
+              waste, and environmental degradation — contributing to UN SDG 2 (Zero Hunger) and SDG 12 (Responsible
+              Consumption).</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 5: PROJECT OBJECTIVES
+══════════════════════════════════════════════════════════ -->
+<section id="objectives" class="about-section-pad" aria-label="Project objectives">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-bullseye" aria-hidden="true"></i> Objectives</span>
+      <h2 class="section-title mt-2">Project <span>Objectives</span></h2>
+      <p class="section-subtitle mt-3">Six strategic goals that guide every design, engineering, and ML decision in
+        OptiCrop.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-1">
+        <article class="objective-card">
+          <div class="obj-num">Objective 01</div>
+          <span class="obj-icon" aria-hidden="true">🤖</span>
+          <h3 class="obj-title">AI-Powered Crop Recommendation</h3>
+          <p class="obj-desc">Develop and deploy a production-ready ML model that accurately recommends the most
+            suitable crop based on soil chemistry and climate data with measurable performance metrics.</p>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-2">
+        <article class="objective-card">
+          <div class="obj-num">Objective 02</div>
+          <span class="obj-icon" aria-hidden="true">📈</span>
+          <h3 class="obj-title">Improve Farming Productivity</h3>
+          <p class="obj-desc">Enable data-driven crop selection that maximizes yield per hectare, reduces crop failure
+            rates, and improves overall agricultural productivity for smallholder farmers.</p>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-3">
+        <article class="objective-card">
+          <div class="obj-num">Objective 03</div>
+          <span class="obj-icon" aria-hidden="true">🌿</span>
+          <h3 class="obj-title">Advance Sustainable Farming</h3>
+          <p class="obj-desc">Promote environmentally responsible agriculture through precision recommendations that
+            minimize resource overuse, soil degradation, and carbon footprint in farming operations.</p>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-2">
+        <article class="objective-card">
+          <div class="obj-num">Objective 04</div>
+          <span class="obj-icon" aria-hidden="true">🔬</span>
+          <h3 class="obj-title">Support Agricultural Research</h3>
+          <p class="obj-desc">Provide researchers with a reproducible, open ML pipeline for crop recommendation studies,
+            enabling further academic exploration of feature engineering and model optimization.</p>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-3">
+        <article class="objective-card">
+          <div class="obj-num">Objective 05</div>
+          <span class="obj-icon" aria-hidden="true">🏛️</span>
+          <h3 class="obj-title">Inform Policy Decisions</h3>
+          <p class="obj-desc">Equip agricultural policymakers and government planners with scalable AI tools for
+            regional crop suitability assessment, subsidy planning, and food security strategy formulation.</p>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-4">
+        <article class="objective-card">
+          <div class="obj-num">Objective 06</div>
+          <span class="obj-icon" aria-hidden="true">⚡</span>
+          <h3 class="obj-title">Optimize Resource Utilization</h3>
+          <p class="obj-desc">Minimize wasteful input usage (water, fertilizers, pesticides) by ensuring crops are
+            aligned with soil nutrient profiles, reducing costs and protecting soil health long-term.</p>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 6: KEY FEATURES
+══════════════════════════════════════════════════════════ -->
+<section id="key-features" class="about-section-pad" aria-label="Key features">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-stars" aria-hidden="true"></i> Key Features</span>
+      <h2 class="section-title mt-2">What Makes OptiCrop <span>Exceptional</span></h2>
+      <p class="section-subtitle mt-3">Ten production-grade features engineered for reliability, accuracy, and an
+        outstanding user experience.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-1">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon fi-green"><i class="bi bi-cpu-fill" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">Machine Learning Prediction</h3>
+          <p class="fpcard-desc">Ensemble of 5 ML algorithms delivering 99.5% crop recommendation accuracy through
+            cross-validated training.</p>
+          <span class="fpcard-tag">Scikit-Learn</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-2">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon fi-blue"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">Real-Time Recommendation</h3>
+          <p class="fpcard-desc">Flask REST API delivers sub-50ms predictions with confidence scores and crop insights
+            in real time.</p>
+          <span class="fpcard-tag">Flask API</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-3">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon fi-violet"><i class="bi bi-phone-fill" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">Responsive Web Application</h3>
+          <p class="fpcard-desc">Bootstrap 5 responsive design works flawlessly on all devices — smartphones, tablets,
+            and desktops.</p>
+          <span class="fpcard-tag">Bootstrap 5</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-4">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon fi-amber"><i class="bi bi-shield-check-fill" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">Input Data Validation</h3>
+          <p class="fpcard-desc">Robust server-side and client-side validation ensures agronomically valid ranges for
+            all 7 input parameters.</p>
+          <span class="fpcard-tag">Data Quality</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-2">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon fi-teal"><i class="bi bi-bar-chart-steps" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">Model Comparison Engine</h3>
+          <p class="fpcard-desc">Side-by-side accuracy comparison of all 5 algorithms (Accuracy, F1, Precision, Recall,
+            ROC-AUC).</p>
+          <span class="fpcard-tag">Model Evaluation</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-3">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon fi-rose"><i class="bi bi-bullseye" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">High Prediction Accuracy</h3>
+          <p class="fpcard-desc">99.5% Random Forest accuracy achieved via hyperparameter tuning with GridSearchCV and
+            10-fold stratified CV.</p>
+          <span class="fpcard-tag">GridSearchCV</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-4">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon"
+            style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.25);color:#f59e0b;"><i
+              class="bi bi-palette-fill" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">Premium Modern UI</h3>
+          <p class="fpcard-desc">Enterprise-grade dark glassmorphism interface with micro-animations, gradient
+            typography, and intuitive UX design.</p>
+          <span class="fpcard-tag">CSS3 + JS</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 col-xl-3 fade-in-up delay-5">
+        <article class="feature-pill-card">
+          <div class="fpcard-icon"
+            style="background:rgba(20,184,166,0.15);border:1px solid rgba(20,184,166,0.25);color:#2dd4bf;"><i
+              class="bi bi-server" aria-hidden="true"></i></div>
+          <h3 class="fpcard-title">Flask Backend Architecture</h3>
+          <p class="fpcard-desc">Clean MVC architecture with Flask blueprints, Jinja2 templating, and modular route
+            organization for maintainability.</p>
+          <span class="fpcard-tag">Flask MVC</span>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 7: MACHINE LEARNING WORKFLOW
+══════════════════════════════════════════════════════════ -->
+<section id="ml-workflow" class="about-section-pad" aria-label="Machine learning workflow">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-diagram-3-fill" aria-hidden="true"></i> ML Lifecycle</span>
+      <h2 class="section-title mt-2">Machine Learning <span>Workflow</span></h2>
+      <p class="section-subtitle mt-3">A rigorous, 9-stage end-to-end machine learning pipeline — from raw dataset to
+        production-ready prediction API.</p>
+    </div>
+
+    <div class="ml-timeline" role="list" aria-label="Machine learning workflow timeline">
+
+      <div class="ml-timeline-item" role="listitem">
+        <div class="ml-timeline-node" aria-label="Step 1" aria-hidden="true">📦</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 01 · Data Acquisition</div>
+          <h3 class="ml-step-title">Dataset Collection</h3>
+          <p class="ml-step-desc">Curated Kaggle Crop Recommendation Dataset with 2,200 records across 22 crop classes.
+            Features: N, P, K, Temperature, Humidity, pH, Rainfall — all with known agronomic significance.</p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item right" role="listitem">
+        <div class="ml-timeline-node" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);" aria-label="Step 2"
+          aria-hidden="true">🧹</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 02 · Data Quality</div>
+          <h3 class="ml-step-title">Data Cleaning</h3>
+          <p class="ml-step-desc">Missing value imputation, duplicate removal, outlier detection using IQR method, and
+            data type validation to ensure a clean, consistent feature matrix for modelling.</p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item" role="listitem">
+        <div class="ml-timeline-node" style="background:linear-gradient(135deg,#f59e0b,#d97706);" aria-label="Step 3"
+          aria-hidden="true">📊</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 03 · Analysis</div>
+          <h3 class="ml-step-title">Exploratory Data Analysis</h3>
+          <p class="ml-step-desc">Statistical summaries, correlation heatmaps, distribution plots (Matplotlib/Seaborn),
+            class balance analysis, and feature-target relationship exploration to guide engineering decisions.</p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item right" role="listitem">
+        <div class="ml-timeline-node" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);" aria-label="Step 4"
+          aria-hidden="true">⚙️</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 04 · Feature Engineering</div>
+          <h3 class="ml-step-title">Feature Engineering</h3>
+          <p class="ml-step-desc">Created engineered features: NPK Ratio, Soil-Climate Interaction Index,
+            humidity-temperature correlation composite. Applied StandardScaler normalization for algorithm convergence.
+          </p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item" role="listitem">
+        <div class="ml-timeline-node" style="background:linear-gradient(135deg,#22c55e,#16a34a);" aria-label="Step 5"
+          aria-hidden="true">🤖</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 05 · Model Development</div>
+          <h3 class="ml-step-title">Model Training</h3>
+          <p class="ml-step-desc">Trained 5 classification algorithms: Random Forest (300 estimators), Decision Tree
+            (max_depth=15), KNN (k=5), SVM (RBF kernel), Logistic Regression (lbfgs solver) on 80/20 train-test split.
+          </p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item right" role="listitem">
+        <div class="ml-timeline-node" style="background:linear-gradient(135deg,#2dd4bf,#0d9488);" aria-label="Step 6"
+          aria-hidden="true">📋</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 06 · Performance Analysis</div>
+          <h3 class="ml-step-title">Model Evaluation</h3>
+          <p class="ml-step-desc">Comprehensive evaluation with Accuracy, Precision, Recall, F1-Score, ROC-AUC,
+            Confusion Matrix, and Classification Report. 10-fold stratified cross-validation for statistical
+            reliability.</p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item" role="listitem">
+        <div class="ml-timeline-node" style="background:linear-gradient(135deg,#fb7185,#e11d48);" aria-label="Step 7"
+          aria-hidden="true">🔧</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 07 · Optimization</div>
+          <h3 class="ml-step-title">Hyperparameter Optimization</h3>
+          <p class="ml-step-desc">GridSearchCV and RandomizedSearchCV applied to all 5 models. Tuned n_estimators,
+            max_depth, min_samples_split, learning_rate, and kernel parameters for peak performance.</p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item right" role="listitem">
+        <div class="ml-timeline-node" style="background:linear-gradient(135deg,#f59e0b,#d97706);" aria-label="Step 8"
+          aria-hidden="true">🏆</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 08 · Selection</div>
+          <h3 class="ml-step-title">Model Selection</h3>
+          <p class="ml-step-desc">Random Forest selected as production model: 99.5% accuracy, superior F1-Score across
+            all 22 classes, best ROC-AUC, and robust generalization on unseen data.</p>
+        </div>
+      </div>
+
+      <div class="ml-timeline-item" role="listitem">
+        <div class="ml-timeline-node" aria-label="Step 9" aria-hidden="true">🚀</div>
+        <div class="ml-timeline-card">
+          <div class="ml-step-label">Step 09 · Deployment</div>
+          <h3 class="ml-step-title">Prediction Pipeline</h3>
+          <p class="ml-step-desc">Flask REST API serializes the trained model as a .pkl file and serves real-time
+            predictions. Input → Preprocessing → Inference → Postprocessing → JSON Response to frontend.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 8: ALGORITHMS USED
+══════════════════════════════════════════════════════════ -->
+<section id="algorithms" class="about-section-pad" aria-label="Machine learning algorithms">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-cpu" aria-hidden="true"></i> Algorithms</span>
+      <h2 class="section-title mt-2">ML Algorithms <span>Implemented</span></h2>
+      <p class="section-subtitle mt-3">Five carefully selected classification algorithms benchmarked, compared, and
+        documented for academic transparency and reproducibility.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-1">
+        <article class="algo-detail-card adc-rf">
+          <div class="algo-header">
+            <span class="algo-emoji" aria-hidden="true">🌲</span>
+            <div>
+              <div class="algo-name">Random Forest</div>
+              <div class="algo-purpose">Ensemble Tree Classifier</div>
+              <span class="algo-badge-tag tag-rf">Best Model</span>
+            </div>
+          </div>
+          <div class="algo-accuracy">99.5%</div>
+          <div class="algo-accuracy-label">Cross-Validated Accuracy</div>
+          <div class="algo-prog" role="progressbar" aria-valuenow="99.5" aria-valuemin="0" aria-valuemax="100"
+            aria-label="99.5% accuracy">
+            <div class="algo-prog-fill" data-width="99.5"></div>
+          </div>
+          <ul class="algo-points">
+            <li>Builds 300 decision trees via bootstrap aggregating (bagging)</li>
+            <li>Resistant to overfitting through ensemble averaging</li>
+            <li>Provides feature importance rankings for explainability</li>
+            <li>Handles non-linear decision boundaries effectively</li>
+            <li>Selected for production deployment — highest F1 across all 22 classes</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-2">
+        <article class="algo-detail-card adc-dt">
+          <div class="algo-header">
+            <span class="algo-emoji" aria-hidden="true">🌿</span>
+            <div>
+              <div class="algo-name">Decision Tree</div>
+              <div class="algo-purpose">Rule-Based Classifier</div>
+              <span class="algo-badge-tag tag-dt">Interpretable</span>
+            </div>
+          </div>
+          <div class="algo-accuracy"
+            style="background:linear-gradient(135deg,#38bdf8,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+            97.7%</div>
+          <div class="algo-accuracy-label">Cross-Validated Accuracy</div>
+          <div class="algo-prog" role="progressbar" aria-valuenow="97.7" aria-valuemin="0" aria-valuemax="100"
+            aria-label="97.7% accuracy">
+            <div class="algo-prog-fill" data-width="97.7" style="background:linear-gradient(135deg,#38bdf8,#0ea5e9);">
+            </div>
+          </div>
+          <ul class="algo-points">
+            <li>Gini impurity criterion for optimal split selection</li>
+            <li>Highly interpretable — rules can be visualised and explained</li>
+            <li>Max depth constrained to 15 to prevent overfitting</li>
+            <li>Ideal for understanding crop-parameter decision logic</li>
+            <li>Used as baseline model for Random Forest comparison</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-3">
+        <article class="algo-detail-card adc-lr">
+          <div class="algo-header">
+            <span class="algo-emoji" aria-hidden="true">📊</span>
+            <div>
+              <div class="algo-name">Logistic Regression</div>
+              <div class="algo-purpose">Linear Probabilistic Classifier</div>
+              <span class="algo-badge-tag tag-lr">Baseline</span>
+            </div>
+          </div>
+          <div class="algo-accuracy"
+            style="background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+            90.2%</div>
+          <div class="algo-accuracy-label">Cross-Validated Accuracy</div>
+          <div class="algo-prog" role="progressbar" aria-valuenow="90.2" aria-valuemin="0" aria-valuemax="100"
+            aria-label="90.2% accuracy">
+            <div class="algo-prog-fill" data-width="90.2" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);">
+            </div>
+          </div>
+          <ul class="algo-points">
+            <li>Multi-class One-vs-Rest (OvR) classification strategy</li>
+            <li>Outputs calibrated probability distributions per class</li>
+            <li>Fast training time — ideal as a statistical baseline</li>
+            <li>L2 regularization to handle multicollinear features</li>
+            <li>lbfgs solver for convergence on high-dimensional data</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-2">
+        <article class="algo-detail-card adc-knn">
+          <div class="algo-header">
+            <span class="algo-emoji" aria-hidden="true">📍</span>
+            <div>
+              <div class="algo-name">K-Nearest Neighbors</div>
+              <div class="algo-purpose">Instance-Based Classifier</div>
+              <span class="algo-badge-tag tag-knn">Instance-Based</span>
+            </div>
+          </div>
+          <div class="algo-accuracy"
+            style="background:linear-gradient(135deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+            97.5%</div>
+          <div class="algo-accuracy-label">Cross-Validated Accuracy</div>
+          <div class="algo-prog" role="progressbar" aria-valuenow="97.5" aria-valuemin="0" aria-valuemax="100"
+            aria-label="97.5% accuracy">
+            <div class="algo-prog-fill" data-width="97.5" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">
+            </div>
+          </div>
+          <ul class="algo-points">
+            <li>Euclidean distance metric with k=5 optimal neighbours</li>
+            <li>Non-parametric: no assumptions about data distribution</li>
+            <li>Requires StandardScaler preprocessing for distance integrity</li>
+            <li>Sensitive to feature scaling — demonstrates importance of preprocessing</li>
+            <li>Strong performer on crop proximity-based recommendations</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-3">
+        <article class="algo-detail-card adc-km">
+          <div class="algo-header">
+            <span class="algo-emoji" aria-hidden="true">🔵</span>
+            <div>
+              <div class="algo-name">K-Means Clustering</div>
+              <div class="algo-purpose">Unsupervised Cluster Analysis</div>
+              <span class="algo-badge-tag tag-km">Unsupervised</span>
+            </div>
+          </div>
+          <div class="algo-accuracy"
+            style="background:linear-gradient(135deg,#2dd4bf,#0d9488);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+            EDA</div>
+          <div class="algo-accuracy-label">Exploratory Analysis Role</div>
+          <div class="algo-prog" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
+            aria-label="EDA role">
+            <div class="algo-prog-fill" data-width="80" style="background:linear-gradient(135deg,#2dd4bf,#0d9488);">
+            </div>
+          </div>
+          <ul class="algo-points">
+            <li>Reveals natural soil-crop groupings in the dataset</li>
+            <li>Elbow method used to determine optimal cluster count (k=5)</li>
+            <li>Validates that soil profiles form distinct, separable clusters</li>
+            <li>Supports the hypothesis that classification-based ML is appropriate</li>
+            <li>Used for EDA insight — not deployed in production pipeline</li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- Model Winner Summary -->
+      <div class="col-md-6 col-lg-4 fade-in-up delay-4">
+        <div class="algo-detail-card"
+          style="background:linear-gradient(135deg,rgba(22,163,74,0.08),rgba(14,165,233,0.05));border-color:rgba(22,163,74,0.2);">
+          <div style="text-align:center;padding:16px 0;">
+            <div style="font-size:2.5rem;margin-bottom:16px;">🏆</div>
+            <h3
+              style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:#f1f5f9;margin-bottom:8px;">
+              Model Winner</h3>
+            <p style="font-size:0.82rem;color:#64748b;margin-bottom:20px;">Selected for Production Deployment</p>
+            <div
+              style="font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;">
+              Random Forest</div>
+            <p style="font-size:0.78rem;color:#64748b;margin-bottom:20px;">300 Estimators · GridSearchCV Optimized</p>
+          </div>
+          <div class="row g-2 text-center">
+            <div class="col-6">
+              <div
+                style="background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.2);border-radius:12px;padding:12px;">
+                <div style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#22c55e;">99.5%</div>
+                <div style="font-size:0.68rem;color:#64748b;">Accuracy</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div
+                style="background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.2);border-radius:12px;padding:12px;">
+                <div style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#38bdf8;">0.995</div>
+                <div style="font-size:0.68rem;color:#64748b;">F1-Score</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div
+                style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:12px;">
+                <div style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#fbbf24;">10-Fold
+                </div>
+                <div style="font-size:0.68rem;color:#64748b;">CV Strategy</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div
+                style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);border-radius:12px;padding:12px;">
+                <div style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#a78bfa;">22</div>
+                <div style="font-size:0.68rem;color:#64748b;">Crop Classes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 9: TECHNOLOGY STACK
+══════════════════════════════════════════════════════════ -->
+<section id="about-tech-stack" class="about-section-pad" aria-label="Technology stack">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-layers-fill" aria-hidden="true"></i> Technology</span>
+      <h2 class="section-title mt-2">Technology <span>Stack</span></h2>
+      <p class="section-subtitle mt-3">Industry-standard technologies chosen for performance, maintainability, and
+        alignment with modern AgriTech engineering practices.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-1">
+        <div class="tech-group-card">
+          <div class="tech-group-header">
+            <div class="tech-group-icon">🐍</div>
+            <div class="tech-group-name">Backend &amp; Core</div>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🐍</span>
+            <div>
+              <div class="tech-item-name">Python 3.11</div>
+              <div class="tech-item-role">Primary language</div>
+            </div><span class="tech-item-badge">v3.11</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🌶️</span>
+            <div>
+              <div class="tech-item-name">Flask</div>
+              <div class="tech-item-role">Web framework</div>
+            </div><span class="tech-item-badge">v3.0</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🔒</span>
+            <div>
+              <div class="tech-item-name">Jinja2</div>
+              <div class="tech-item-role">Templating engine</div>
+            </div><span class="tech-item-badge">Built-in</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">📦</span>
+            <div>
+              <div class="tech-item-name">Pickle</div>
+              <div class="tech-item-role">Model serialization</div>
+            </div><span class="tech-item-badge">stdlib</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-2">
+        <div class="tech-group-card">
+          <div class="tech-group-header">
+            <div class="tech-group-icon">🤖</div>
+            <div class="tech-group-name">Machine Learning</div>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🤖</span>
+            <div>
+              <div class="tech-item-name">Scikit-Learn</div>
+              <div class="tech-item-role">ML algorithms</div>
+            </div><span class="tech-item-badge">v1.3</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🐼</span>
+            <div>
+              <div class="tech-item-name">Pandas</div>
+              <div class="tech-item-role">Data manipulation</div>
+            </div><span class="tech-item-badge">v2.0</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🔢</span>
+            <div>
+              <div class="tech-item-name">NumPy</div>
+              <div class="tech-item-role">Numerical computing</div>
+            </div><span class="tech-item-badge">v1.26</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">📊</span>
+            <div>
+              <div class="tech-item-name">Matplotlib / Seaborn</div>
+              <div class="tech-item-role">Visualization</div>
+            </div><span class="tech-item-badge">EDA</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">📔</span>
+            <div>
+              <div class="tech-item-name">Jupyter Notebook</div>
+              <div class="tech-item-role">Experimentation</div>
+            </div><span class="tech-item-badge">Dev</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-3">
+        <div class="tech-group-card">
+          <div class="tech-group-header">
+            <div class="tech-group-icon">🌐</div>
+            <div class="tech-group-name">Frontend</div>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🌐</span>
+            <div>
+              <div class="tech-item-name">HTML5</div>
+              <div class="tech-item-role">Structure &amp; semantics</div>
+            </div><span class="tech-item-badge">HTML5</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🎨</span>
+            <div>
+              <div class="tech-item-name">CSS3</div>
+              <div class="tech-item-role">Styling &amp; animations</div>
+            </div><span class="tech-item-badge">CSS3</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">⚡</span>
+            <div>
+              <div class="tech-item-name">Bootstrap 5</div>
+              <div class="tech-item-role">UI framework</div>
+            </div><span class="tech-item-badge">v5.3</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🟨</span>
+            <div>
+              <div class="tech-item-name">JavaScript ES6+</div>
+              <div class="tech-item-role">Interactivity</div>
+            </div><span class="tech-item-badge">Vanilla</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🖼️</span>
+            <div>
+              <div class="tech-item-name">Bootstrap Icons</div>
+              <div class="tech-item-role">Icon library</div>
+            </div><span class="tech-item-badge">v1.11</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-4">
+        <div class="tech-group-card">
+          <div class="tech-group-header">
+            <div class="tech-group-icon">🛠️</div>
+            <div class="tech-group-name">Development</div>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🐙</span>
+            <div>
+              <div class="tech-item-name">Git</div>
+              <div class="tech-item-role">Version control</div>
+            </div><span class="tech-item-badge">SCM</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🐱</span>
+            <div>
+              <div class="tech-item-name">GitHub</div>
+              <div class="tech-item-role">Repository hosting</div>
+            </div><span class="tech-item-badge">Remote</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🐍</span>
+            <div>
+              <div class="tech-item-name">Virtualenv</div>
+              <div class="tech-item-role">Environment isolation</div>
+            </div><span class="tech-item-badge">Env</span>
+          </div>
+          <div class="tech-item-row"><span class="tech-item-emoji">🖊️</span>
+            <div>
+              <div class="tech-item-name">VS Code</div>
+              <div class="tech-item-role">Code editor</div>
+            </div><span class="tech-item-badge">IDE</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 10: REAL-WORLD USE CASES
+══════════════════════════════════════════════════════════ -->
+<section id="use-cases" class="about-section-pad" aria-label="Real-world use cases">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-map-fill" aria-hidden="true"></i> Use Cases</span>
+      <h2 class="section-title mt-2">Real-World <span>Applications</span></h2>
+      <p class="section-subtitle mt-3">Three SmartBridge-aligned scenarios demonstrating OptiCrop's real-world
+        agricultural and research impact.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-12 col-lg-4 fade-in-up delay-1">
+        <article class="usecase-card uc-1">
+          <div class="uc-scenario-label">🏷️ Scenario 01 — Primary Use Case</div>
+          <span class="uc-icon" aria-hidden="true">🧑‍🌾</span>
+          <h3 class="uc-title">Smart Crop Recommendation for Farmers</h3>
+          <p class="uc-desc">
+            A smallholder farmer in rural Maharashtra enters soil test results (N=90, P=42, K=43) and local climate data
+            (Temp=20.8°C, Humidity=82%, pH=6.5, Rainfall=202mm) into OptiCrop.
+            The AI model instantly recommends <strong style="color:#22c55e;">Rice</strong> with 96.4% confidence,
+            explaining the match between soil chemistry and crop requirements — enabling an informed planting decision
+            in under 5 seconds without needing an agronomist.
+          </p>
+          <div class="uc-tags">
+            <span class="uc-tag">Precision Farming</span>
+            <span class="uc-tag">Rural Advisory</span>
+            <span class="uc-tag">Yield Optimization</span>
+            <span class="uc-tag">Food Security</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-2">
+        <article class="usecase-card uc-2">
+          <div class="uc-scenario-label">🏷️ Scenario 02 — Environmental Assessment</div>
+          <span class="uc-icon" aria-hidden="true">🌍</span>
+          <h3 class="uc-title">Crop Suitability &amp; Environmental Assessment</h3>
+          <p class="uc-desc">
+            An agricultural NGO conducts soil surveys across 500 farms in Andhra Pradesh to assess regional crop
+            suitability under changing monsoon patterns. Using OptiCrop's batch prediction API,
+            they map crop recommendations to GPS coordinates, generating a district-level crop suitability atlas
+            that informs irrigation planning and seed distribution programs — all powered by OptiCrop's ML engine.
+          </p>
+          <div class="uc-tags">
+            <span class="uc-tag">Environmental Science</span>
+            <span class="uc-tag">GIS Mapping</span>
+            <span class="uc-tag">NGO Research</span>
+            <span class="uc-tag">Climate Adaptation</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 fade-in-up delay-3">
+        <article class="usecase-card uc-3">
+          <div class="uc-scenario-label">🏷️ Scenario 03 — Policy &amp; Research</div>
+          <span class="uc-icon" aria-hidden="true">📜</span>
+          <h3 class="uc-title">Agricultural Research &amp; Policy Planning</h3>
+          <p class="uc-desc">
+            The Indian Ministry of Agriculture uses OptiCrop to analyze 10,000 soil samples from the National Soil
+            Health Card database. The platform's ML comparison module benchmarks Random Forest, Decision Tree,
+            and KNN predictions to identify regional patterns in crop-soil relationships.
+            Findings are used to reform the PM-Fasal Bima Yojana crop insurance eligibility criteria with
+            data-backed recommendations.
+          </p>
+          <div class="uc-tags">
+            <span class="uc-tag">Policy Planning</span>
+            <span class="uc-tag">Research Analytics</span>
+            <span class="uc-tag">Predictive Modeling</span>
+            <span class="uc-tag">Data Governance</span>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 11: BENEFITS
+══════════════════════════════════════════════════════════ -->
+<section id="about-benefits" class="about-section-pad" aria-label="Benefits for all stakeholders">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-people-fill" aria-hidden="true"></i> Stakeholder Value</span>
+      <h2 class="section-title mt-2">Benefits for <span>Everyone</span></h2>
+      <p class="section-subtitle mt-3">OptiCrop delivers measurable value across the complete agricultural and research
+        ecosystem.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-xl fade-in-up delay-1">
+        <article class="benefit-tab-card btc-farmer">
+          <div class="btc-role">👨‍🌾 Farmers</div>
+          <span class="btc-icon" aria-hidden="true">🌾</span>
+          <h3 class="btc-title">Empowered Farmers</h3>
+          <ul class="btc-list" role="list">
+            <li>AI-driven crop selection replacing guesswork</li>
+            <li>Reduced crop failure and financial risk</li>
+            <li>Maximized yield per hectare</li>
+            <li>Lower input cost through precise recommendations</li>
+            <li>Free, accessible from any device</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-xl fade-in-up delay-2">
+        <article class="benefit-tab-card btc-research">
+          <div class="btc-role">🔬 Researchers</div>
+          <span class="btc-icon" aria-hidden="true">🧬</span>
+          <h3 class="btc-title">Research Enablement</h3>
+          <ul class="btc-list" role="list">
+            <li>Open, reproducible ML pipeline for study</li>
+            <li>Multi-algorithm comparative analysis</li>
+            <li>Feature importance and explainability data</li>
+            <li>Benchmarking platform for new algorithms</li>
+            <li>Publication-quality evaluation metrics</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-xl fade-in-up delay-3">
+        <article class="benefit-tab-card btc-agri">
+          <div class="btc-role">🏢 Agribusiness</div>
+          <span class="btc-icon" aria-hidden="true">📈</span>
+          <h3 class="btc-title">Business Intelligence</h3>
+          <ul class="btc-list" role="list">
+            <li>AI advisory services automation at scale</li>
+            <li>REST API integration into existing platforms</li>
+            <li>Data-driven procurement intelligence</li>
+            <li>Improved supply chain forecasting accuracy</li>
+            <li>Higher ROI through precision recommendations</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-xl fade-in-up delay-4">
+        <article class="benefit-tab-card btc-govt">
+          <div class="btc-role">🏛️ Government</div>
+          <span class="btc-icon" aria-hidden="true">🗺️</span>
+          <h3 class="btc-title">Policy &amp; Governance</h3>
+          <ul class="btc-list" role="list">
+            <li>Region-wise crop suitability mapping</li>
+            <li>Evidence-based agricultural subsidy allocation</li>
+            <li>National food security strategic planning</li>
+            <li>Sustainable farming policy enforcement</li>
+            <li>Rural development data infrastructure</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-xl fade-in-up delay-5">
+        <article class="benefit-tab-card btc-student">
+          <div class="btc-role">🎓 Students</div>
+          <span class="btc-icon" aria-hidden="true">💡</span>
+          <h3 class="btc-title">Learning &amp; Portfolio</h3>
+          <ul class="btc-list" role="list">
+            <li>Full-stack ML project for portfolio</li>
+            <li>Real-world Flask + Scikit-Learn experience</li>
+            <li>ATS-friendly ML keyword demonstration</li>
+            <li>SmartBridge capstone project qualification</li>
+            <li>GitHub &amp; LinkedIn profile asset</li>
+          </ul>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 12: FUTURE ENHANCEMENTS
+══════════════════════════════════════════════════════════ -->
+<section id="future-scope" class="about-section-pad" aria-label="Future enhancements">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-rocket-takeoff-fill" aria-hidden="true"></i> Future Roadmap</span>
+      <h2 class="section-title mt-2">Future <span>Enhancements</span></h2>
+      <p class="section-subtitle mt-3">Planned technical upgrades and business expansions that will evolve OptiCrop into
+        a comprehensive precision agriculture platform.</p>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-1">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">☁️</span>
+          <h3 class="future-title">Weather API Integration</h3>
+          <p class="future-desc">Real-time OpenWeatherMap / IMD API integration to auto-populate temperature, humidity,
+            and rainfall values based on GPS location.</p>
+          <span class="future-phase-badge phase-1">Phase 1</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-2">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">🛰️</span>
+          <h3 class="future-title">Satellite Remote Sensing</h3>
+          <p class="future-desc">NDVI analysis from Sentinel-2 satellite imagery for real-time soil health monitoring
+            and crop stress detection at field scale.</p>
+          <span class="future-phase-badge phase-2">Phase 2</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-3">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">📡</span>
+          <h3 class="future-title">IoT Sensor Network</h3>
+          <p class="future-desc">Soil moisture, pH, and temperature IoT sensors providing continuous, automated data
+            streams directly into the prediction pipeline.</p>
+          <span class="future-phase-badge phase-2">Phase 2</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-4">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">🚁</span>
+          <h3 class="future-title">Drone Field Analysis</h3>
+          <p class="future-desc">UAV drone imagery analysis for multi-spectral soil composition mapping and automated
+            agronomic scouting at scale.</p>
+          <span class="future-phase-badge phase-3">Phase 3</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-2">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">📱</span>
+          <h3 class="future-title">Mobile Application</h3>
+          <p class="future-desc">Native Android and iOS apps with offline prediction capability, camera-based soil
+            analysis, and push notifications for seasonal recommendations.</p>
+          <span class="future-phase-badge phase-1">Phase 1</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-3">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">☁️</span>
+          <h3 class="future-title">Cloud Deployment</h3>
+          <p class="future-desc">Docker containerization and deployment to AWS / GCP / Azure with auto-scaling, load
+            balancing, and CI/CD pipeline for production operations.</p>
+          <span class="future-phase-badge phase-1">Phase 1</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-4">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">🤖</span>
+          <h3 class="future-title">AI Chatbot Assistant</h3>
+          <p class="future-desc">LLM-powered agricultural chatbot for natural language queries about crop cultivation,
+            fertilizer schedules, pest management, and market prices.</p>
+          <span class="future-phase-badge phase-3">Phase 3</span>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-3 fade-in-up delay-5">
+        <article class="future-card">
+          <span class="future-icon" aria-hidden="true">🌐</span>
+          <h3 class="future-title">Multilingual Support</h3>
+          <p class="future-desc">Localization in 12+ Indian languages (Hindi, Tamil, Telugu, Kannada, Marathi) plus
+            global languages to serve farmers worldwide.</p>
+          <span class="future-phase-badge phase-2">Phase 2</span>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 13: SYSTEM ARCHITECTURE
+══════════════════════════════════════════════════════════ -->
+<section id="architecture" class="about-section-pad" aria-label="System architecture">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-hdd-stack-fill" aria-hidden="true"></i> Architecture</span>
+      <h2 class="section-title mt-2">System <span>Architecture</span></h2>
+      <p class="section-subtitle mt-3">A clean, layered MVC architecture connecting the web interface to the AI
+        prediction engine through a Flask REST backend.</p>
+    </div>
+
+    <div class="row g-5 align-items-center justify-content-center">
+
+      <div class="col-lg-7 fade-in-left">
+        <div class="arch-diagram" role="img" aria-label="System architecture diagram">
+
+          <div class="arch-layer">
+            <div class="arch-layer-icon">👤</div>
+            <div>
+              <div class="arch-layer-name">User / Farmer</div>
+              <div class="arch-layer-detail">Any device — browser, tablet, mobile</div>
+            </div>
+            <div class="arch-flow-label">Initiates</div>
+          </div>
+
+          <div class="arch-arrow" aria-hidden="true">↓ <span style="font-size:0.72rem;color:#64748b;">HTTP
+              Request</span></div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-icon" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">🌐</div>
+            <div>
+              <div class="arch-layer-name">Frontend Interface</div>
+              <div class="arch-layer-detail">HTML5 · CSS3 · Bootstrap 5 · Vanilla JS</div>
+            </div>
+            <div class="arch-flow-label">Renders UI</div>
+          </div>
+
+          <div class="arch-arrow" aria-hidden="true">↓ <span style="font-size:0.72rem;color:#64748b;">Form POST /
+              JSON</span></div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706);">🌶️</div>
+            <div>
+              <div class="arch-layer-name">Flask Backend (Routes)</div>
+              <div class="arch-layer-detail">Route handlers · Input validation · Jinja2 templates</div>
+            </div>
+            <div class="arch-flow-label">Processes</div>
+          </div>
+
+          <div class="arch-arrow" aria-hidden="true">↓ <span style="font-size:0.72rem;color:#64748b;">Preprocessed
+              Array</span></div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-icon" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">⚙️</div>
+            <div>
+              <div class="arch-layer-name">Preprocessing Layer</div>
+              <div class="arch-layer-detail">StandardScaler · Feature Engineering · Numpy</div>
+            </div>
+            <div class="arch-flow-label">Transforms</div>
+          </div>
+
+          <div class="arch-arrow" aria-hidden="true">↓ <span style="font-size:0.72rem;color:#64748b;">Model
+              Inference</span></div>
+
+          <div class="arch-layer">
+            <div class="arch-layer-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a);">🌲</div>
+            <div>
+              <div class="arch-layer-name">ML Model (Random Forest)</div>
+              <div class="arch-layer-detail">Pickle .pkl · 300 estimators · 22-class classifier</div>
+            </div>
+            <div class="arch-flow-label">Predicts</div>
+          </div>
+
+          <div class="arch-arrow" aria-hidden="true">↓ <span style="font-size:0.72rem;color:#64748b;">Prediction +
+              Confidence</span></div>
+
+          <div class="arch-layer" style="border-color:rgba(22,163,74,0.4);background:rgba(22,163,74,0.1);">
+            <div class="arch-layer-icon">✅</div>
+            <div>
+              <div class="arch-layer-name" style="color:#22c55e;">Crop Recommendation</div>
+              <div class="arch-layer-detail">Crop name · Confidence score · Agronomic insights</div>
+            </div>
+            <div class="arch-flow-label">Returns</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-5 fade-in-right">
+        <h3 style="font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:20px;color:#f1f5f9;">
+          Architecture Principles</h3>
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex gap-3 align-items-start">
+            <div
+              style="width:40px;height:40px;background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.22);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              🧩</div>
+            <div>
+              <div
+                style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.92rem;color:#f1f5f9;margin-bottom:4px;">
+                Modular MVC Design</div>
+              <div style="font-size:0.82rem;color:#64748b;line-height:1.6;">Clean separation of concerns — Models,
+                Views, Controllers — ensuring maintainability and testability.</div>
+            </div>
+          </div>
+          <div class="d-flex gap-3 align-items-start">
+            <div
+              style="width:40px;height:40px;background:rgba(14,165,233,0.12);border:1px solid rgba(14,165,233,0.22);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              ⚡</div>
+            <div>
+              <div
+                style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.92rem;color:#f1f5f9;margin-bottom:4px;">
+                Stateless REST Design</div>
+              <div style="font-size:0.82rem;color:#64748b;line-height:1.6;">Each prediction request is stateless, making
+                the system horizontally scalable for cloud deployment.</div>
+            </div>
+          </div>
+          <div class="d-flex gap-3 align-items-start">
+            <div
+              style="width:40px;height:40px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.22);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              🔒</div>
+            <div>
+              <div
+                style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.92rem;color:#f1f5f9;margin-bottom:4px;">
+                Input Validation First</div>
+              <div style="font-size:0.82rem;color:#64748b;line-height:1.6;">Multi-layer validation ensures only
+                agronomically valid parameters reach the ML inference layer.</div>
+            </div>
+          </div>
+          <div class="d-flex gap-3 align-items-start">
+            <div
+              style="width:40px;height:40px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.22);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              📦</div>
+            <div>
+              <div
+                style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.92rem;color:#f1f5f9;margin-bottom:4px;">
+                Pre-Serialized Model Cache</div>
+              <div style="font-size:0.82rem;color:#64748b;line-height:1.6;">Pickle-serialized model is loaded at
+                application startup — eliminating re-training latency on each prediction.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 14: PROJECT STATISTICS
+══════════════════════════════════════════════════════════ -->
+<section id="about-stats" aria-label="Project statistics">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-bar-chart-fill" aria-hidden="true"></i> By the Numbers</span>
+      <h2 class="section-title mt-2">Project <span>Statistics</span></h2>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-6 col-md-4 col-lg-2 fade-in-up delay-1">
+        <div class="about-stat-card">
+          <span class="about-stat-icon" aria-hidden="true">🤖</span>
+          <div class="about-stat-number"><span data-counter="5" data-suffix=""></span></div>
+          <div class="about-stat-label">ML Models</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2 fade-in-up delay-2">
+        <div class="about-stat-card">
+          <span class="about-stat-icon" aria-hidden="true">🔬</span>
+          <div class="about-stat-number"><span data-counter="7" data-suffix=""></span></div>
+          <div class="about-stat-label">Input Parameters</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2 fade-in-up delay-3">
+        <div class="about-stat-card">
+          <span class="about-stat-icon" aria-hidden="true">🌿</span>
+          <div class="about-stat-number"><span data-counter="22" data-suffix="+"></span></div>
+          <div class="about-stat-label">Crop Categories</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2 fade-in-up delay-4">
+        <div class="about-stat-card">
+          <span class="about-stat-icon" aria-hidden="true">🎯</span>
+          <div class="about-stat-number"><span data-counter="99.5" data-suffix="%"></span></div>
+          <div class="about-stat-label">Accuracy</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2 fade-in-up delay-5">
+        <div class="about-stat-card">
+          <span class="about-stat-icon" aria-hidden="true">📊</span>
+          <div class="about-stat-number"><span data-counter="2200" data-suffix="+"></span></div>
+          <div class="about-stat-label">Training Records</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2 fade-in-up delay-6">
+        <div class="about-stat-card">
+          <span class="about-stat-icon" aria-hidden="true">🛠️</span>
+          <div class="about-stat-number"><span data-counter="15" data-suffix="+"></span></div>
+          <div class="about-stat-label">Technologies</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="gradient-divider" style="margin-top:70px;" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 15: FAQ
+══════════════════════════════════════════════════════════ -->
+<section id="faq-section" class="about-section-pad" aria-label="Frequently asked questions">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <span class="section-label"><i class="bi bi-question-circle-fill" aria-hidden="true"></i> FAQ</span>
+      <h2 class="section-title mt-2">Frequently Asked <span>Questions</span></h2>
+      <p class="section-subtitle mt-3">Answers to common questions from evaluators, recruiters, and users about
+        OptiCrop.</p>
+    </div>
+
+    <div class="faq-accordion" id="faqAccordion" role="list">
+
+      <div class="faq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="faq-button accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1"
+            aria-expanded="true" aria-controls="faq1">
+            <div class="faq-icon" aria-hidden="true"><i class="bi bi-info-circle"></i></div>
+            What is OptiCrop and what does it do?
+          </button>
+        </h3>
+        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="faq-body">
+            OptiCrop is an AI-powered Smart Agricultural Production Optimization Engine — a SmartBridge capstone
+            project that uses Machine Learning to recommend the most suitable crop for a given set of soil and climate
+            conditions. It accepts 7 agronomic parameters (N, P, K, Temperature, Humidity, pH, Rainfall) and returns
+            the optimal crop recommendation with a confidence score. The system is built with Python, Flask,
+            Scikit-Learn, and Bootstrap 5 for a fully responsive web experience.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="faq-button accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+            <div class="faq-icon" aria-hidden="true"><i class="bi bi-cpu"></i></div>
+            How does the Machine Learning prediction work?
+          </button>
+        </h3>
+        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="faq-body">
+            The prediction workflow follows these steps: (1) User inputs soil and climate parameters through the
+            web form. (2) Flask backend validates and preprocesses inputs using StandardScaler normalization.
+            (3) The pre-trained Random Forest classifier (300 estimators, GridSearchCV optimized) processes the
+            feature array. (4) The model generates a 22-class probability distribution. (5) The highest-probability
+            class is returned as the recommended crop with its confidence score. The model achieves 99.5% accuracy
+            validated through 10-fold stratified cross-validation on the Kaggle crop dataset.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="faq-button accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+            <div class="faq-icon" aria-hidden="true"><i class="bi bi-people"></i></div>
+            Who can use OptiCrop and what are the input requirements?
+          </button>
+        </h3>
+        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="faq-body">
+            OptiCrop is designed for farmers, agricultural researchers, agribusiness professionals, government
+            agricultural departments, and students. The required inputs are: Nitrogen (0–140 ppm),
+            Phosphorus (5–145 ppm), Potassium (5–205 ppm), Temperature (8–44 °C), Humidity (14–100 %),
+            pH (3.5–10), and Rainfall (20–300 mm). Soil test values can be obtained from soil testing laboratories,
+            government soil health cards, or portable soil test kits available from agricultural cooperatives.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="faq-button accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+            <div class="faq-icon" aria-hidden="true"><i class="bi bi-layers"></i></div>
+            What technologies and ML algorithms are used?
+          </button>
+        </h3>
+        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="faq-body">
+            <strong style="color:#f1f5f9;">ML Algorithms:</strong> Random Forest (best — 99.5%), Decision Tree (97.7%),
+            K-Nearest Neighbors (97.5%), Support Vector Machine (96.8%), Logistic Regression (90.2%), K-Means Clustering
+            (EDA).<br><br>
+            <strong style="color:#f1f5f9;">Backend:</strong> Python 3.11, Flask 3.0, Pickle model serialization, Jinja2
+            templating.<br><br>
+            <strong style="color:#f1f5f9;">ML Stack:</strong> Scikit-Learn 1.3, Pandas 2.0, NumPy 1.26, Matplotlib,
+            Seaborn, Jupyter Notebook.<br><br>
+            <strong style="color:#f1f5f9;">Frontend:</strong> HTML5, CSS3, Bootstrap 5.3, Bootstrap Icons, Vanilla
+            JavaScript, Google Fonts.<br><br>
+            <strong style="color:#f1f5f9;">Dev:</strong> Git, GitHub, VS Code, Virtualenv.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="faq-button accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+            <div class="faq-icon" aria-hidden="true"><i class="bi bi-bar-chart"></i></div>
+            How accurate is the prediction? Which model is used in production?
+          </button>
+        </h3>
+        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="faq-body">
+            The production model is the <strong style="color:#22c55e;">Random Forest Classifier</strong> with 300
+            estimators,
+            achieving <strong style="color:#22c55e;">99.5% accuracy</strong> on the held-out test set.
+            It was selected after GridSearchCV hyperparameter optimization and 10-fold stratified cross-validation
+            across all 5 candidate algorithms. The model achieves an F1-Score of 0.995 across all 22 crop classes,
+            with a macro-averaged ROC-AUC score exceeding 0.999. All evaluation metrics are documented in the project's
+            Jupyter Notebook.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item accordion-item" role="listitem">
+        <h3 class="accordion-header">
+          <button class="faq-button accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+            <div class="faq-icon" aria-hidden="true"><i class="bi bi-github"></i></div>
+            Where can I access the source code and project documentation?
+          </button>
+        </h3>
+        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="faq-body">
+            The complete OptiCrop project — including source code, Jupyter Notebooks, trained models, dataset,
+            and documentation — is available on GitHub. The repository is organized with the following structure:
+            <code style="color:#22c55e;">app/</code> (Flask application), <code style="color:#22c55e;">models/</code>
+            (trained .pkl files), <code style="color:#22c55e;">dataset/</code> (training data),
+            <code style="color:#22c55e;">reports/</code> (evaluation metrics and visualizations), and
+            <code style="color:#22c55e;">scripts/</code> (training scripts). This project is part of the SmartBridge
+            AI/ML Internship capstone programme.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="gradient-divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 16: CTA BANNER
+══════════════════════════════════════════════════════════ -->
+<section id="about-cta" aria-label="Call to action">
+  <div class="container">
+    <div class="about-cta-inner">
+      <span class="about-cta-emoji" aria-hidden="true">🌾</span>
+      <h2 class="about-cta-title">
+        Ready to Try Smart<br>Crop Prediction?
+      </h2>
+      <p class="about-cta-sub">
+        Experience the power of AI-driven precision agriculture. Enter your soil parameters and get
+        an instant crop recommendation backed by Machine Learning.
+      </p>
+      <a href="{{ url_for('main.predict') }}" class="btn-about-cta" id="about-cta-btn" role="button">
+        <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+        Try Smart Crop Prediction
+        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      </a>
+      <div
+        style="display:flex;justify-content:center;gap:24px;margin-top:28px;flex-wrap:wrap;position:relative;z-index:1;">
+        <span style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:rgba(255,255,255,0.7);"><i
+            class="bi bi-shield-check-fill"></i> 99.5% Accuracy</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:rgba(255,255,255,0.7);"><i
+            class="bi bi-lightning-fill"></i> Instant Results</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:rgba(255,255,255,0.7);"><i
+            class="bi bi-cpu-fill"></i> 5 ML Algorithms</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:rgba(255,255,255,0.7);"><i
+            class="bi bi-leaf-fill"></i> 22+ Crop Types</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
+
+{# Page-specific JS #}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+{% endblock %}
